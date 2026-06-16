@@ -16,10 +16,42 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Custom JPanel for interactive graph visualization.
- * Supports zoom, pan, node drag, hover highlights, and two modes:
- * - Global View: spiral/concentric layout of all vertices.
- * - Neighborhood Focus: displays the selected node in the center and its neighbors in concentric rings.
+ * Painel interativo para visualização de grafos com zoom, pan e seleção de nós.
+ *
+ * <p>Responsabilidades:
+ * <ul>
+ *   <li>Renderizar grafo com nós e arestas em escala interativa</li>
+ *   <li>Gerenciar two view modes: Global e Neighborhood Focus</li>
+ *   <li>Processar interações de usuário (mouse, zoom, pan, seleção)</li>
+ *   <li>Aplicar algoritmos de layout (spiral global e concêntrico local)</li>
+ *   <li>Visualizar propriedades de grafo (comunidades, centralidade, caminhos)</li>
+ * </ul>
+ *
+ * <p>Modos de Visualização:
+ * <ul>
+ *   <li><b>Global View:</b> Espiral dourada com todos os nós, agrupados por comunidade</li>
+ *   <li><b>Neighborhood Focus:</b> Nó selecionado no centro, vizinhos em anéis concêntricos</li>
+ * </ul>
+ *
+ * <p>Recursos Interativos:
+ * <ul>
+ *   <li>Zoom (scroll do mouse) com zoom limitado (0.005x a 20x)</li>
+ *   <li>Pan (arrastar mouse) para mover viewport</li>
+ *   <li>Seleção de nó (click) com efeitos visuais</li>\n *   <li>Hover (passar mouse) com destaque de conexões</li>
+ *   <li>Arrastar nó (apenas em Global View) para reposicionar</li>
+ * </ul>
+ *
+ * <p>Otimizações de Performance:
+ * <ul>
+ *   <li>Viewport culling para nós e arestas fora da tela</li>
+ *   <li>Edge sampling quando muito afastado (zoom < 0.4)</li>
+ *   <li>Renderização seletiva de rótulos baseada em zoom</li>
+ *   <li>Antialiasing inteligente</li>
+ * </ul>
+ *
+ * @author Jafte Carneiro Fagundes da Silva
+ * @author Nicolas Hrescak
+ * @see Graph\n * @see GraphGUI\n * @see Theme
  */
 public class GraphPanel extends JPanel {
     private Graph graph;
@@ -168,8 +200,18 @@ public class GraphPanel extends JPanel {
     }
 
     /**
-     * Resets the graph and recomputes the layouts.
-     */
+     * Carrega novo grafo e recomputa layout e estruturas de visualização.
+     *
+     * <p>Operações realizadas:\n * <ul>
+     *   <li>Armazena referências de grafo e algoritmos</li>
+     *   <li>Detecta comunidades (componentes conexos) para colorização</li>
+     *   <li>Computa layout global (espiral dourada)</li>
+     *   <li>Reseta zoom e pan para enquadrar grafo todo</li>
+     *   <li>Limpa seleção de nó e estado de hover</li>
+     * </ul>
+     *
+     * <p>Se grafo é nulo, painel exibe placeholder \"Nenhum grafo carregado\".\n *
+     * @param graph novo grafo a visualizar (pode ser {@code null})\n     * @param algs algoritmos para detectar comunidades (componentes conexos)\n     */
     public void setGraph(Graph graph, GraphAlgorithms algs) {
         this.graph = graph;
         this.algs = algs;
@@ -250,6 +292,12 @@ public class GraphPanel extends JPanel {
         repaint();
     }
 
+    /**
+     * Alterna entre modo de visão global e foco na vizinhança.
+     *
+     * <p><b>Global View:</b> Exibe todos os nós em layout de espiral com comunidades coloridas.\n * <b>Neighborhood Focus:</b> Exibe nó selecionado no centro com vizinhos em anéis.\n *
+     * <p>Ao alternar modo, layout é recalculado e zoom/pan são resetados.\n *
+     * @param global {@code true} para Global View, {@code false} para Neighborhood Focus\n     */
     public void setGlobalViewMode(boolean global) {
         if (this.globalViewMode != global) {
             this.globalViewMode = global;
@@ -261,6 +309,17 @@ public class GraphPanel extends JPanel {
         return this.globalViewMode;
     }
 
+    /**
+     * Seleciona um nó e notifica listener de seleção.
+     *
+     * <p>Efeitos:\n * <ul>
+     *   <li>Marca nó como selecionado (ampliar visual, cor laranja)</li>
+     *   <li>Se em Neighborhood Focus, recomputa layout com novo nó como centro</li>
+     *   <li>Dispara callback de {@link NodeSelectionListener#onNodeSelected(int)}</li>
+     *   <li>Redesenha painel</li>
+     * </ul>
+     *
+     * @param index índice do nó a selecionar (-1 para desselecionar)\n     */
     public void setSelectedNodeIndex(int index) {
         this.selectedNodeIndex = index;
         if (selectionListener != null) {

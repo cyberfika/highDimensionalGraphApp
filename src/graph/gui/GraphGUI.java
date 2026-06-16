@@ -67,7 +67,7 @@ public class GraphGUI extends JFrame {
     private JTextPane txtResults;
     private DefaultListModel<String> topNodesListModel;
     private JList<String> lstTopNodes;
-    private List<Integer> topNodesIndices = new ArrayList<>();
+    private final List<Integer> topNodesIndices = new ArrayList<>();
 
     /**
      * Inicializa a interface gráfica principal.
