@@ -12,9 +12,6 @@ build/
 *.project
 .settings/
 
-# Generated Pajek output
-pajek/output/
-
 # OS
 .DS_Store
 Thumbs.db
@@ -27,3 +24,7 @@ desktop.ini
 
 docs/agents.md
 AGENTS.md
+docs/templates/**
+/docs/templates
+docs/templates
+

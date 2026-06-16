@@ -1,3 +1,14 @@
+/**
+ * Aplicação de Grafos de Alta Dimensionalidade — Rede Social
+ * Trabalho Colaborativo II — Ciência da Computação (PUCPR)
+ *
+ * Autores:
+ *   - Jafte Carneiro Fagundes da Silva (@cyberfika)
+ *   - Nicolas Hrescak (@NicolasHrescak)
+ *
+ * Professor: Fabrício Enembreck
+ */
+
 package graph;
 
 import graph.algorithm.GraphAlgorithms;
@@ -39,21 +50,43 @@ public class Main {
     private static boolean wasLoaded    = false;
 
     public static void main(String[] args) {
-        boolean running = true;
-        while (running) {
-            showMainMenu();
-            String option = sc.nextLine().trim();
-            switch (option) {
-                case "1" -> loadSocialNetwork();
-                case "2" -> generateRandom();
-                case "3" -> loadPajek();
-                case "0" -> running = false;
-                default  -> System.out.println("Invalid option.");
+        boolean useConsole = false;
+        if (args.length == 0) {
+            useConsole = Menu.chooseConsoleMode();
+        } else {
+            for (String arg : args) {
+                if (arg.equalsIgnoreCase("--console")) {
+                    useConsole = true;
+                    break;
+                }
             }
-            if (graph != null && !option.equals("0")) graphMenu();
         }
-        System.out.println("\nGoodbye!");
-        sc.close();
+
+        if (useConsole) {
+            boolean running = true;
+            while (running) {
+                showMainMenu();
+                String option = sc.nextLine().trim();
+                switch (option) {
+                    case "1" -> loadSocialNetwork();
+                    case "2" -> generateRandom();
+                    case "3" -> loadPajek();
+                    case "0" -> running = false;
+                    default  -> System.out.println("Invalid option.");
+                }
+                if (graph != null && !option.equals("0")) graphMenu();
+            }
+            System.out.println("\nGoodbye!");
+            sc.close();
+        } else {
+            // Launch GUI on the Event Dispatch Thread
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                try {
+                    javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
+                } catch (Exception ignored) {}
+                new graph.gui.GraphGUI().setVisible(true);
+            });
+        }
     }
 
     // -------------------------------------------------------------------------

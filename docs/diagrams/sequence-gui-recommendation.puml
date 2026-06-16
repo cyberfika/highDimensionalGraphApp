@@ -1,0 +1,46 @@
+@startuml GUI Social Network Recommendation
+
+!theme plain
+actor User
+participant "GraphGUI" as gui
+participant "SocialNetworkHandler" as handler
+participant "GraphUIState" as state
+participant "Graph" as graph
+participant "SocialNetwork" as social
+participant "ResultPanel" as results
+
+User -> gui: enters source name
+gui -> gui: txtSource.setText()
+User -> gui: enters target name
+gui -> gui: txtTarget.setText()
+User -> gui: clicks "Recomendar"
+gui -> handler: recommendFollower(source, target)
+handler -> state: getGraph()
+state --> handler: Graph
+handler -> social: new SocialNetwork(graph)
+handler -> social: recommendFollower(source, target)
+social -> graph: findByName(source)
+graph --> social: source vertex index
+social -> graph: findByName(target)
+graph --> social: target vertex index
+alt Direct follow exists
+    social -> graph: neighbors(source)
+    social --> handler: "Já segue"
+else Path exists
+    loop DFS traversal
+        social -> graph: neighbors(u)
+        social -> social: dfsPath(u, v, path, visited)
+    end
+    note over social: O(V + E)
+    social --> handler: path found
+    handler -> gui: onRecommendationComplete(path)
+    gui -> results: displayPath(path)
+else No path exists
+    social --> handler: "Sem recomendação"
+    handler -> gui: onRecommendationComplete(null)
+    gui -> results: displayMessage()
+end
+gui -> User: show recommendation + path
+User -> User: view connection path
+
+@enduml

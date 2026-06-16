@@ -1,0 +1,72 @@
+@startuml Deployment Diagram
+
+!theme plain
+skinparam backgroundColor #ffffff
+
+package "Developer Machine" {
+    node "Source Code" as source {
+        component [Java Source Files] as java_src
+        component [Configuration Files] as config
+    }
+
+    node "Build Environment" as build {
+        component [javac] as javac
+        component [Compiled Classes] as classes
+    }
+}
+
+package "Execution Environment (JVM 8+)" {
+    node "Runtime" as runtime {
+        component [Class Loader] as loader
+        component [Memory] as memory
+        component [Garbage Collector] as gc
+    }
+
+    node "Application Process" as app {
+        component [graph.model.*] as model_rt
+        component [graph.algorithm.*] as alg_rt
+        component [graph.domain.*] as domain_rt
+        component [graph.io.*] as io_rt
+        component [graph.generator.*] as gen_rt
+        component [graph.gui.*] as gui_rt
+        component [graph.Main] as main_rt
+    }
+
+    node "System Resources" as sys {
+        component [Data Files] as data
+        component [Pajek Files] as pajek
+        component [Display (GUI)] as display
+        component [Console Output (CLI)] as console
+    }
+}
+
+' Compilation
+java_src --|> javac : compile
+config --|> javac : reference
+javac --> classes : generate
+
+' Runtime
+loader --> classes : load
+loader --> model_rt : initialize
+loader --> app : load
+
+model_rt --> memory : occupies
+alg_rt --> memory : occupies
+gui_rt --> memory : occupies
+
+memory --|> gc : managed by
+
+' Data access
+main_rt --> data : reads (names.txt)
+main_rt --> pajek : import/export
+io_rt --> pajek : read/write
+
+' Output
+gui_rt --> display : render (Swing)
+main_rt --> console : output (CLI)
+
+' User interaction
+display --|> sys : Display adapter
+console --|> sys : Terminal/Shell
+
+@enduml
