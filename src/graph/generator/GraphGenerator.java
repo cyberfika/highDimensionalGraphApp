@@ -1,3 +1,14 @@
+/**
+ * Aplicação de Grafos de Alta Dimensionalidade — Rede Social
+ * Trabalho Colaborativo II — Ciência da Computação (PUCPR)
+ *
+ * Autores:
+ *   - Jafte Carneiro Fagundes da Silva (@cyberfika)
+ *   - Nicolas Hrescak (@NicolasHrescak)
+ *
+ * Professor: Fabrício Enembreck
+ */
+
 package graph.generator;
 
 import graph.io.NamesLoader;
