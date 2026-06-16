@@ -1,5 +1,5 @@
 \documentclass[12pt,a4paper]{article}
-\usepackage[utf-8]{inputenc}
+
 \usepackage[portuguese]{babel}
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{amsmath}
@@ -58,77 +58,77 @@
 
 \begin{document}
 
-\maketitle
-\thispagestyle{empty}
-\newpage
+    \maketitle
+    \thispagestyle{empty}
+    \newpage
 
-\tableofcontents
-\newpage
+    \tableofcontents
+    \newpage
 
 % ================================================================
 % SEÇÃO 1: INTRODUÇÃO
 % ================================================================
-\section{Introdução}
+    \section{Introdução}
 
-GraphNet Analyzer é uma aplicação completa de análise e visualização de grafos de alta dimensionalidade, desenvolvida em Java puro (JDK 8+), combinando uma interface gráfica moderna com um sistema de linha de comando legado. O projeto implementa uma rede social com 5.000 usuários e mais de 25.000 conexões direcionadas.
+    GraphNet Analyzer é uma aplicação completa de análise e visualização de grafos de alta dimensionalidade, desenvolvida em Java puro (JDK 8+), combinando uma interface gráfica moderna com um sistema de linha de comando legado. O projeto implementa uma rede social com 5.000 usuários e mais de 25.000 conexões direcionadas.
 
-\subsection{Objetivos do Projeto}
+    \subsection{Objetivos do Projeto}
 
-\begin{enumerate}
-    \item Implementar uma estrutura de dados de grafo eficiente com suporte a vértices nomeados e arestas ponderadas
-    \item Implementar 7 algoritmos clássicos de análise de grafos (conectividade, componentes, ciclos, Euleriano, centralidades)
-    \item Fornecer uma interface gráfica interativa com visualização em tempo real
-    \item Implementar um sistema de recomendação de seguidores via busca em profundidade (DFS)
-    \item Aplicar princípios SOLID para obter código modular, testável e extensível
-\end{enumerate}
+    \begin{enumerate}
+        \item Implementar uma estrutura de dados de grafo eficiente com suporte a vértices nomeados e arestas ponderadas
+        \item Implementar 7 algoritmos clássicos de análise de grafos (conectividade, componentes, ciclos, Euleriano, centralidades)
+        \item Fornecer uma interface gráfica interativa com visualização em tempo real
+        \item Implementar um sistema de recomendação de seguidores via busca em profundidade (DFS)
+        \item Aplicar princípios SOLID para obter código modular, testável e extensível
+    \end{enumerate}
 
-\subsection{Escopo Técnico}
+    \subsection{Escopo Técnico}
 
-\begin{itemize}
-    \item \textbf{Linguagem:} Java 8+ (sem dependências externas)
-    \item \textbf{GUI:} Swing com componentes customizados
-    \item \textbf{Tamanho:} 5.000 vértices, ~25.000 a 40.000 arestas
-    \item \textbf{Formato de I/O:} Pajek (.net)
-    \item \textbf{Padrões de Design:} MVC, Facade, Factory, Strategy, Dependency Injection
-\end{itemize}
+    \begin{itemize}
+        \item \textbf{Linguagem:} Java 8+ (sem dependências externas)
+        \item \textbf{GUI:} Swing com componentes customizados
+        \item \textbf{Tamanho:} 5.000 vértices, ~25.000 a 40.000 arestas
+        \item \textbf{Formato de I/O:} Pajek (.net)
+        \item \textbf{Padrões de Design:} MVC, Facade, Factory, Strategy, Dependency Injection
+    \end{itemize}
 
-\newpage
+    \newpage
 
 % ================================================================
 % SEÇÃO 2: ARQUITETURA GERAL
 % ================================================================
-\section{Arquitetura Geral do Sistema}
+    \section{Arquitetura Geral do Sistema}
 
-\subsection{Visão de Módulos}
+    \subsection{Visão de Módulos}
 
-A aplicação está organizada em 6 camadas funcionais, cada uma com responsabilidade bem definida:
+    A aplicação está organizada em 6 camadas funcionais, cada uma com responsabilidade bem definida:
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Camada} & \textbf{Pacote} & \textbf{Responsabilidade} \\
-\hline
-\textbf{Apresentação} & \texttt{graph.gui} & Interface gráfica e componentes customizados \\
-\hline
-\textbf{Controladores} & \texttt{graph.gui.*Handler} & Roteamento de eventos e orquestração \\
-\hline
-\textbf{Domínio} & \texttt{graph.domain} & Lógica de negócio (recomendações) \\
-\hline
-\textbf{Algoritmos} & \texttt{graph.algorithm} & Análise de grafos (7 algoritmos) \\
-\hline
-\textbf{Estrutura de Dados} & \texttt{graph.model} & Representação interna do grafo \\
-\hline
-\textbf{I/O e Utilitários} & \texttt{graph.io}, \texttt{graph.generator} & Importação, exportação e geração \\
-\hline
-\end{tabular}
-\end{table}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|l|}
+            \hline
+            \textbf{Camada} & \textbf{Pacote} & \textbf{Responsabilidade} \\
+            \hline
+            \textbf{Apresentação} & \texttt{graph.gui} & Interface gráfica e componentes customizados \\
+            \hline
+            \textbf{Controladores} & \texttt{graph.gui.*Handler} & Roteamento de eventos e orquestração \\
+            \hline
+            \textbf{Domínio} & \texttt{graph.domain} & Lógica de negócio (recomendações) \\
+            \hline
+            \textbf{Algoritmos} & \texttt{graph.algorithm} & Análise de grafos (7 algoritmos) \\
+            \hline
+            \textbf{Estrutura de Dados} & \texttt{graph.model} & Representação interna do grafo \\
+            \hline
+            \textbf{I/O e Utilitários} & \texttt{graph.io}, \texttt{graph.generator} & Importação, exportação e geração \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-\subsection{Diagrama de Dependências entre Pacotes}
+    \subsection{Diagrama de Dependências entre Pacotes}
 
-As dependências entre pacotes seguem a regra de acoplamento mínimo:
+    As dependências entre pacotes seguem a regra de acoplamento mínimo:
 
-\begin{verbatim}
+    \begin{verbatim}
     Main, Menu
          ↓
     GraphGUI ← (orquestração)
@@ -142,81 +142,81 @@ As dependências entre pacotes seguem a regra de acoplamento mínimo:
     GraphAlgorithms, SocialNetwork
          ↓
     GraphGenerator, PajekIO, NamesLoader
-\end{verbatim}
+    \end{verbatim}
 
-A estrutura garante que:
-\begin{itemize}
-    \item \textbf{Algoritmos} nunca dependem de GUI
-    \item \textbf{Domínio} nunca conhece Handlers
-    \item \textbf{Graph} é imutável para leitura segura
-    \item \textbf{Handlers} recebem dependências via injeção de construtor
-\end{itemize}
+    A estrutura garante que:
+    \begin{itemize}
+        \item \textbf{Algoritmos} nunca dependem de GUI
+        \item \textbf{Domínio} nunca conhece Handlers
+        \item \textbf{Graph} é imutável para leitura segura
+        \item \textbf{Handlers} recebem dependências via injeção de construtor
+    \end{itemize}
 
-\newpage
+    \newpage
 
 % ================================================================
 % SEÇÃO 3: CAMADA DE ESTRUTURA DE DADOS
 % ================================================================
-\section{Camada de Estrutura de Dados}
+    \section{Camada de Estrutura de Dados}
 
-\subsection{Classe \texttt{Graph}}
+    \subsection{Classe \texttt{Graph}}
 
-A classe \texttt{Graph} é a estrutura de dados central, representando um grafo ponderado, rotulado e opcionalmente direcionado.
+    A classe \texttt{Graph} é a estrutura de dados central, representando um grafo ponderado, rotulado e opcionalmente direcionado.
 
-\subsubsection{Responsabilidades}
+    \subsubsection{Responsabilidades}
 
-\begin{itemize}
-    \item Armazenar vértices em um array de strings (\texttt{names[]})
-    \item Armazenar arestas em lista de adjacências (\texttt{adj[]})
-    \item Fornecer API pública para consulta segura de vizinhos
-    \item Gerenciar automaticamente inversas de arestas para grafos não-direcionados
-\end{itemize}
+    \begin{itemize}
+        \item Armazenar vértices em um array de strings (\texttt{names[]})
+        \item Armazenar arestas em lista de adjacências (\texttt{adj[]})
+        \item Fornecer API pública para consulta segura de vizinhos
+        \item Gerenciar automaticamente inversas de arestas para grafos não-direcionados
+    \end{itemize}
 
-\subsubsection{Atributos Principais}
+    \subsubsection{Atributos Principais}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Atributo} & \textbf{Tipo} & \textbf{Descrição} \\
-\hline
-\texttt{numVertices} & \texttt{final int} & Número total de vértices \\
-\hline
-\texttt{directed} & \texttt{boolean} & Se o grafo é direcionado \\
-\hline
-\texttt{names[]} & \texttt{private String[]} & Rótulos dos vértices \\
-\hline
-\texttt{adj[]} & \texttt{private List<int[]>[]} & Lista de adjacências (destino, peso) \\
-\hline
-\end{tabular}
-\end{table}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|l|}
+            \hline
+            \textbf{Atributo} & \textbf{Tipo} & \textbf{Descrição} \\
+            \hline
+            \texttt{numVertices} & \texttt{final int} & Número total de vértices \\
+            \hline
+            \texttt{directed} & \texttt{boolean} & Se o grafo é direcionado \\
+            \hline
+            \texttt{names[]} & \texttt{private String[]} & Rótulos dos vértices \\
+            \hline
+            \texttt{adj[]} & \texttt{private List<int[]>[]} & Lista de adjacências (destino, peso) \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-\subsubsection{Métodos Públicos}
+    \subsubsection{Métodos Públicos}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Método} & \textbf{Descrição e Complexidade} \\
-\hline
-\texttt{Graph(int, boolean)} & Construtor. O(V) \\
-\hline
-\texttt{setName(int, String)} & Define rótulo do vértice. O(1) \\
-\hline
-\texttt{getName(int)} & Retorna rótulo. O(1) \\
-\hline
-\texttt{addEdge(int, int, int)} & Adiciona aresta. O(1) amortizado \\
-\hline
-\texttt{findByName(String)} & Busca vértice por nome (case-insensitive). O(V) \\
-\hline
-\texttt{neighbors(int)} & Retorna lista de vizinhos. O(1) \\
-\hline
-\end{tabular}
-\end{table}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|}
+            \hline
+            \textbf{Método} & \textbf{Descrição e Complexidade} \\
+            \hline
+            \texttt{Graph(int, boolean)} & Construtor. O(V) \\
+            \hline
+            \texttt{setName(int, String)} & Define rótulo do vértice. O(1) \\
+            \hline
+            \texttt{getName(int)} & Retorna rótulo. O(1) \\
+            \hline
+            \texttt{addEdge(int, int, int)} & Adiciona aresta. O(1) amortizado \\
+            \hline
+            \texttt{findByName(String)} & Busca vértice por nome (case-insensitive). O(V) \\
+            \hline
+            \texttt{neighbors(int)} & Retorna lista de vizinhos. O(1) \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-\subsubsection{Fluxo de Criação}
+    \subsubsection{Fluxo de Criação}
 
-\begin{lstlisting}[language=Java, caption=Uso da classe Graph]
+    \begin{lstlisting}[language=Java, caption=Uso da classe Graph]
 // Criação
 Graph graph = new Graph(5000, true); // direcionado
 
@@ -227,33 +227,33 @@ for (int i = 0; i < 5000; i++) {
 
 // Adição de arestas
 graph.addEdge(0, 1, 1); // pessoa 0 segue pessoa 1
-\end{lstlisting}
+    \end{lstlisting}
 
-\newpage
+    \newpage
 
 % ================================================================
 % SEÇÃO 4: CAMADA DE ALGORITMOS
 % ================================================================
-\section{Camada de Algoritmos}
+    \section{Camada de Algoritmos}
 
-\subsection{Classe \texttt{GraphAlgorithms}}
+    \subsection{Classe \texttt{GraphAlgorithms}}
 
-Implementa 7 algoritmos clássicos de análise de grafos, especializados para grafos direcionados com componentes fracamente conectados.
+    Implementa 7 algoritmos clássicos de análise de grafos, especializados para grafos direcionados com componentes fracamente conectados.
 
-\subsubsection{Responsabilidades}
+    \subsubsection{Responsabilidades}
 
-\begin{itemize}
-    \item Verificar conectividade (fraca para direcionados)
-    \item Identificar componentes conexos
-    \item Detectar ciclos (coloração DFS)
-    \item Verificar propriedades Eulerianas
-    \item Calcular centralidade de proximidade (Dijkstra)
-    \item Calcular centralidade de intermediação (Algoritmo de Brandes)
-\end{itemize}
+    \begin{itemize}
+        \item Verificar conectividade (fraca para direcionados)
+        \item Identificar componentes conexos
+        \item Detectar ciclos (coloração DFS)
+        \item Verificar propriedades Eulerianas
+        \item Calcular centralidade de proximidade (Dijkstra)
+        \item Calcular centralidade de intermediação (Algoritmo de Brandes)
+    \end{itemize}
 
-\subsubsection{Algoritmo 1: Conectividade}
+    \subsubsection{Algoritmo 1: Conectividade}
 
-\begin{verbatim}
+    \begin{verbatim}
 Função: isConnected()
 Entrada: Grafo G
 Saída: boolean
@@ -262,14 +262,14 @@ Saída: boolean
 2. Cria vetor visitados[|V|] ← false
 3. Inicia BFS a partir do vértice 0 no grafo não-direcionado
 4. Retorna true se todos os vértices foram visitados
-\end{verbatim}
+    \end{verbatim}
 
-\textbf{Complexidade:} O(V + E) \\
-\textbf{Caso de Uso:} Verificar se a rede social é conexa (fracamente)
+    \textbf{Complexidade:} O(V + E) \\
+    \textbf{Caso de Uso:} Verificar se a rede social é conexa (fracamente)
 
-\subsubsection{Algoritmo 2: Componentes Conexos}
+    \subsubsection{Algoritmo 2: Componentes Conexos}
 
-\begin{verbatim}
+    \begin{verbatim}
 Função: getComponents()
 Entrada: Grafo G
 Saída: List<List<Integer>>
@@ -281,14 +281,14 @@ Saída: List<List<Integer>>
    c. Marca todos os vértices alcançáveis como visitados
    d. Adiciona lista de componentes ao resultado
 3. Retorna lista de componentes
-\end{verbatim}
+    \end{verbatim}
 
-\textbf{Complexidade:} O(V + E) \\
-\textbf{Caso de Uso:} Identificar subgrupos desconectados na rede
+    \textbf{Complexidade:} O(V + E) \\
+    \textbf{Caso de Uso:} Identificar subgrupos desconectados na rede
 
-\subsubsection{Algoritmo 3: Euleriano}
+    \subsubsection{Algoritmo 3: Euleriano}
 
-\begin{verbatim}
+    \begin{verbatim}
 Função: isEulerian()
 Entrada: Grafo G
 Saída: 2 (Ciclo) | 1 (Caminho) | 0 (Não Euleriano)
@@ -305,14 +305,14 @@ Para grafos DIRECIONADOS:
   3. Se exatamente um com out-degree = in-degree + 1
      e outro com in-degree = out-degree + 1 → Caminho Euleriano (retorna 1)
   4. Senão → Não Euleriano (retorna 0)
-\end{verbatim}
+    \end{verbatim}
 
-\textbf{Complexidade:} O(V + E) \\
-\textbf{Caso de Uso:} Verificar se existe caminho/ciclo que visite toda aresta exatamente uma vez
+    \textbf{Complexidade:} O(V + E) \\
+    \textbf{Caso de Uso:} Verificar se existe caminho/ciclo que visite toda aresta exatamente uma vez
 
-\subsubsection{Algoritmo 4: Detecção de Ciclo}
+    \subsubsection{Algoritmo 4: Detecção de Ciclo}
 
-\begin{verbatim}
+    \begin{verbatim}
 Função: hasCycle()
 Entrada: Grafo G
 Saída: boolean
@@ -330,14 +330,14 @@ Para grafos NÃO-direcionados (rastreamento de pai):
      a. Inicia DFS
      b. Se encontrar vizinho visitado (não é pai) → ciclo, retorna true
   3. Retorna false se nenhum ciclo encontrado
-\end{verbatim}
+    \end{verbatim}
 
-\textbf{Complexidade:} O(V + E) \\
-\textbf{Caso de Uso:} Detectar influências circulares na rede social
+    \textbf{Complexidade:} O(V + E) \\
+    \textbf{Caso de Uso:} Detectar influências circulares na rede social
 
-\subsubsection{Algoritmo 5: Centralidade de Proximidade}
+    \subsubsection{Algoritmo 5: Centralidade de Proximidade}
 
-\begin{verbatim}
+    \begin{verbatim}
 Função: closenessCentrality()
 Entrada: Grafo G ponderado
 Saída: double[] closeness
@@ -348,14 +348,14 @@ Para cada vértice s:
   3. closeness[s] = (|V| - 1) / soma_distâncias
 
 Retorna array closeness
-\end{verbatim}
+    \end{verbatim}
 
-\textbf{Complexidade:} O(V × (V + E) log V) com Dijkstra e heap binário \\
-\textbf{Caso de Uso:} Identificar usuários centrais na rede (fácil acesso a outros)
+    \textbf{Complexidade:} O(V × (V + E) log V) com Dijkstra e heap binário \\
+    \textbf{Caso de Uso:} Identificar usuários centrais na rede (fácil acesso a outros)
 
-\subsubsection{Algoritmo 6: Centralidade de Intermediação (Brandes)}
+    \subsubsection{Algoritmo 6: Centralidade de Intermediação (Brandes)}
 
-\begin{verbatim}
+    \begin{verbatim}
 Função: betweennessCentrality()
 Entrada: Grafo G ponderado
 Saída: double[] betweenness
@@ -369,14 +369,14 @@ Para cada vértice s:
 
 Divide betweenness por (V-1)×(V-2)/2 para grafos não-direcionados
 Retorna array betweenness
-\end{verbatim}
+    \end{verbatim}
 
-\textbf{Complexidade:} O(V × (V + E) log V) \\
-\textbf{Caso de Uso:} Identificar usuários que atuam como "ponte" entre grupos
+    \textbf{Complexidade:} O(V × (V + E) log V) \\
+    \textbf{Caso de Uso:} Identificar usuários que atuam como "ponte" entre grupos
 
-\subsubsection{Algoritmo 7: Dijkstra (Auxiliar)}
+    \subsubsection{Algoritmo 7: Dijkstra (Auxiliar)}
 
-\begin{verbatim}
+    \begin{verbatim}
 Função: dijkstra(int source)
 Entrada: Vértice de origem
 Saída: int[] distâncias
@@ -391,57 +391,57 @@ Saída: int[] distâncias
         • Atualiza distância[v]
         • Adiciona (nova_distância, v) à queue
 4. Retorna array de distâncias
-\end{verbatim}
+    \end{verbatim}
 
-\textbf{Complexidade:} O((V + E) log V) com heap binário \\
-\textbf{Caso de Uso:} Encontrar caminhos mínimos em redes ponderadas
+    \textbf{Complexidade:} O((V + E) log V) com heap binário \\
+    \textbf{Caso de Uso:} Encontrar caminhos mínimos em redes ponderadas
 
-\subsubsection{Métodos Auxiliares Privados}
+    \subsubsection{Métodos Auxiliares Privados}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Método} & \textbf{Descrição} \\
-\hline
-\texttt{bfsUndirected(boolean[])} & BFS ignorando direção das arestas \\
-\hline
-\texttt{undirectedNeighbors(int)} & Retorna vizinhos em ambas direções \\
-\hline
-\texttt{dfsColor(int, int[], int)} & DFS com coloração (branco/cinza/preto) \\
-\hline
-\texttt{dfsCycle(int, int, boolean[], boolean[])} & DFS para detectar ciclos (não-direcionado) \\
-\hline
-\texttt{dijkstra(int)} & Dijkstra para uma fonte \\
-\hline
-\texttt{backtrackBrandes(...)} & Retrocesso em Brandes \\
-\hline
-\end{tabular}
-\end{table}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|}
+            \hline
+            \textbf{Método} & \textbf{Descrição} \\
+            \hline
+            \texttt{bfsUndirected(boolean[])} & BFS ignorando direção das arestas \\
+            \hline
+            \texttt{undirectedNeighbors(int)} & Retorna vizinhos em ambas direções \\
+            \hline
+            \texttt{dfsColor(int, int[], int)} & DFS com coloração (branco/cinza/preto) \\
+            \hline
+            \texttt{dfsCycle(int, int, boolean[], boolean[])} & DFS para detectar ciclos (não-direcionado) \\
+            \hline
+            \texttt{dijkstra(int)} & Dijkstra para uma fonte \\
+            \hline
+            \texttt{backtrackBrandes(...)} & Retrocesso em Brandes \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-\newpage
+    \newpage
 
 % ================================================================
 % SEÇÃO 5: CAMADA DE DOMÍNIO
 % ================================================================
-\section{Camada de Domínio}
+    \section{Camada de Domínio}
 
-\subsection{Classe \texttt{SocialNetwork}}
+    \subsection{Classe \texttt{SocialNetwork}}
 
-Implementa a lógica de negócio específica da rede social — o sistema de recomendação de seguidores.
+    Implementa a lógica de negócio específica da rede social — o sistema de recomendação de seguidores.
 
-\subsubsection{Responsabilidades}
+    \subsubsection{Responsabilidades}
 
-\begin{itemize}
-    \item Validar nomes de usuários no grafo
-    \item Verificar relacionamentos diretos (já segue)
-    \item Encontrar caminhos indiretos via DFS
-    \item Gerar recomendações com caminho completo
-\end{itemize}
+    \begin{itemize}
+        \item Validar nomes de usuários no grafo
+        \item Verificar relacionamentos diretos (já segue)
+        \item Encontrar caminhos indiretos via DFS
+        \item Gerar recomendações com caminho completo
+    \end{itemize}
 
-\subsubsection{Fluxo do Método \texttt{recommendFollower}}
+    \subsubsection{Fluxo do Método \texttt{recommendFollower}}
 
-\begin{verbatim}
+    \begin{verbatim}
 Função: recommendFollower(sourceName, targetName)
 Entrada: Nomes de dois usuários
 Saída: String (recomendação com caminho ou motivo da recusa)
@@ -463,11 +463,11 @@ Saída: String (recomendação com caminho ou motivo da recusa)
      • "Not recommended. No path exists..."
 
 5. Retorna mensagem com resultado
-\end{verbatim}
+    \end{verbatim}
 
-\subsubsection{Algoritmo DFS com Rastreamento de Caminho}
+    \subsubsection{Algoritmo DFS com Rastreamento de Caminho}
 
-\begin{verbatim}
+    \begin{verbatim}
 Função PRIVADA: dfsPath(current, dest, visited[], path[])
 Entrada: Vértice atual, destino, visitados, caminho acumulado
 Saída: boolean (verdadeiro se destino alcançado)
@@ -480,14 +480,14 @@ Saída: boolean (verdadeiro se destino alcançado)
    b. Se retornar true, retorna true (propaga sucesso)
 5. Remove current do final de path[] (backtrack)
 6. Retorna false (destino não alcançável daqui)
-\end{verbatim}
+    \end{verbatim}
 
-\textbf{Complexidade:} O(V + E) no pior caso \\
-\textbf{Propriedade:} Encontra o primeiro caminho (não necessariamente o mais curto)
+    \textbf{Complexidade:} O(V + E) no pior caso \\
+    \textbf{Propriedade:} Encontra o primeiro caminho (não necessariamente o mais curto)
 
-\subsubsection{Exemplo de Uso}
+    \subsubsection{Exemplo de Uso}
 
-\begin{lstlisting}[language=Java, caption=Sistema de Recomendação de Seguidores]
+    \begin{lstlisting}[language=Java, caption=Sistema de Recomendação de Seguidores]
 SocialNetwork network = new SocialNetwork(graph);
 
 String result = network.recommendFollower("Alice", "Carol");
@@ -496,37 +496,37 @@ String result = network.recommendFollower("Alice", "Carol");
 // 2. "'Alice' already follows 'Carol'."
 // 3. "Not recommended. No path exists..."
 // 4. "Person(s) not found in the graph."
-\end{lstlisting}
+    \end{lstlisting}
 
-\newpage
+    \newpage
 
 % ================================================================
 % SEÇÃO 6: CAMADA DE I/O E UTILITÁRIOS
 % ================================================================
-\section{Camada de I/O e Utilitários}
+    \section{Camada de I/O e Utilitários}
 
-\subsection{Classe \texttt{GraphGenerator}}
+    \subsection{Classe \texttt{GraphGenerator}}
 
-Responsável pela criação de grafos segundo diferentes estratégias.
+    Responsável pela criação de grafos segundo diferentes estratégias.
 
-\subsubsection{Métodos Estáticos}
+    \subsubsection{Métodos Estáticos}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Método} & \textbf{Descrição} \\
-\hline
-\texttt{generateSocialNetwork(String namesFile)} & Gera rede social com 5.000 pessoas \\
-\hline
-\texttt{generateRandomGraph(int V, int E, boolean)} & Gera grafo aleatório \\
-\hline
-\end{tabular}
-\end{table}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|}
+            \hline
+            \textbf{Método} & \textbf{Descrição} \\
+            \hline
+            \texttt{generateSocialNetwork(String namesFile)} & Gera rede social com 5.000 pessoas \\
+            \hline
+            \texttt{generateRandomGraph(int V, int E, boolean)} & Gera grafo aleatório \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-\subsubsection{Geração de Rede Social}
+    \subsubsection{Geração de Rede Social}
 
-\begin{verbatim}
+    \begin{verbatim}
 Função: generateSocialNetwork(String namesFile)
 Entrada: Caminho para arquivo de nomes
 Saída: Graph (direcionado, 5000 vértices)
@@ -538,102 +538,102 @@ Saída: Graph (direcionado, 5000 vértices)
    a. Escolhe aleatoriamente entre 5 e 8 pessoas para seguir
    b. Arestas têm peso 1 (representa "seguir")
 5. Resultado: ~25.000 a 40.000 arestas
-\end{verbatim}
+    \end{verbatim}
 
-\subsection{Classe \texttt{NamesLoader}}
+    \subsection{Classe \texttt{NamesLoader}}
 
-Utilitário para carregamento do arquivo de nomes.
+    Utilitário para carregamento do arquivo de nomes.
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Método} & \textbf{Descrição} \\
-\hline
-\texttt{loadNames(String)} & Retorna String[] com nomes do arquivo \\
-\hline
-\end{tabular}
-\end{table}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|}
+            \hline
+            \textbf{Método} & \textbf{Descrição} \\
+            \hline
+            \texttt{loadNames(String)} & Retorna String[] com nomes do arquivo \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-\subsection{Classe \texttt{PajekIO}}
+    \subsection{Classe \texttt{PajekIO}}
 
-Implementa importação e exportação no formato Pajek (.net).
+    Implementa importação e exportação no formato Pajek (.net).
 
-\subsubsection{Formato Pajek}
+    \subsubsection{Formato Pajek}
 
-\begin{verbatim}
+    \begin{verbatim}
 *Vertices <count>
 <id> "<name>"
 ...
 *Arcs
 <from> <to> <weight>
 ...
-\end{verbatim}
+    \end{verbatim}
 
-\subsubsection{Métodos Estáticos}
+    \subsubsection{Métodos Estáticos}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Método} & \textbf{Descrição} \\
-\hline
-\texttt{importFrom(String filename)} & Lê arquivo em pajek/input/ \\
-\hline
-\texttt{export(Graph, String filename)} & Escreve em pajek/output/ \\
-\hline
-\end{tabular}
-\end{table}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|}
+            \hline
+            \textbf{Método} & \textbf{Descrição} \\
+            \hline
+            \texttt{importFrom(String filename)} & Lê arquivo em pajek/input/ \\
+            \hline
+            \texttt{export(Graph, String filename)} & Escreve em pajek/output/ \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-\newpage
+    \newpage
 
 % ================================================================
 % SEÇÃO 7: CAMADA DE APRESENTAÇÃO (GUI)
 % ================================================================
-\section{Camada de Apresentação}
+    \section{Camada de Apresentação}
 
-\subsection{Classe \texttt{GraphGUI}}
+    \subsection{Classe \texttt{GraphGUI}}
 
-Orquestrador principal da interface gráfica, responsável pela estrutura da janela e roteamento de eventos.
+    Orquestrador principal da interface gráfica, responsável pela estrutura da janela e roteamento de eventos.
 
-\subsubsection{Responsabilidades}
+    \subsubsection{Responsabilidades}
 
-\begin{itemize}
-    \item Criar estrutura de janela (BorderLayout)
-    \item Inicializar componentes (Header, Sidebar esquerdo, GraphPanel, Sidebar direito)
-    \item Instanciar handlers e injetar dependências
-    \item Roteador de eventos para handlers especializados
-    \item Atualizar UI com resultados
-\end{itemize}
+    \begin{itemize}
+        \item Criar estrutura de janela (BorderLayout)
+        \item Inicializar componentes (Header, Sidebar esquerdo, GraphPanel, Sidebar direito)
+        \item Instanciar handlers e injetar dependências
+        \item Roteador de eventos para handlers especializados
+        \item Atualizar UI com resultados
+    \end{itemize}
 
-\subsubsection{Arquitetura Refatorada}
+    \subsubsection{Arquitetura Refatorada}
 
-A classe foi refatorada de 1600+ linhas para ~250 linhas de orquestração pura:
+    A classe foi refatorada de 1600+ linhas para ~250 linhas de orquestração pura:
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Responsabilidade Original} & \textbf{Extraída Para} \\
-\hline
-Carregamento/geração de grafos & GraphLoadingHandler \\
-\hline
-Execução de algoritmos & AlgorithmHandler \\
-\hline
-Operações de rede social & SocialNetworkHandler \\
-\hline
-Gerenciamento de estado & GraphUIState \\
-\hline
-Renderização de grafo & GraphPanel \\
-\hline
-Design tokens & Theme \\
-\hline
-\end{tabular}
-\end{table}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|}
+            \hline
+            \textbf{Responsabilidade Original} & \textbf{Extraída Para} \\
+            \hline
+            Carregamento/geração de grafos & GraphLoadingHandler \\
+            \hline
+            Execução de algoritmos & AlgorithmHandler \\
+            \hline
+            Operações de rede social & SocialNetworkHandler \\
+            \hline
+            Gerenciamento de estado & GraphUIState \\
+            \hline
+            Renderização de grafo & GraphPanel \\
+            \hline
+            Design tokens & Theme \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-\subsubsection{Componentes da GUI}
+    \subsubsection{Componentes da GUI}
 
-\begin{verbatim}
+    \begin{verbatim}
 ┌─────────────────────────────────────────────────┐
 │             GraphGUI (JFrame)                   │
 ├─────────────────────────────────────────────────┤
@@ -647,25 +647,25 @@ Design tokens & Theme \\
 │ │                                            │
 │ │                                            │
 └─────────────────────────────────────────────────┘
-\end{verbatim}
+    \end{verbatim}
 
-\subsection{Classe \texttt{GraphLoadingHandler}}
+    \subsection{Classe \texttt{GraphLoadingHandler}}
 
-Controller para operações de carregamento e geração de grafos.
+    Controller para operações de carregamento e geração de grafos.
 
-\subsubsection{Responsabilidades}
+    \subsubsection{Responsabilidades}
 
-\begin{itemize}
-    \item Coordenar geração de rede social
-    \item Coordenar geração de grafo aleatório
-    \item Coordenar importação de arquivo Pajek
-    \item Atualizar estado da aplicação
-    \item Chamar callbacks de progresso
-\end{itemize}
+    \begin{itemize}
+        \item Coordenar geração de rede social
+        \item Coordenar geração de grafo aleatório
+        \item Coordenar importação de arquivo Pajek
+        \item Atualizar estado da aplicação
+        \item Chamar callbacks de progresso
+    \end{itemize}
 
-\subsubsection{Fluxo de Carregamento}
+    \subsubsection{Fluxo de Carregamento}
 
-\begin{verbatim}
+    \begin{verbatim}
 Usuário clica "Gerar Rede Social"
        ↓
 GraphLoadingHandler.onGenerateSocialNetwork()
@@ -677,76 +677,76 @@ GraphUIState.setGraph(novoGrafo)
 GraphGUI.updateUI() / GraphPanel.render()
        ↓
 Resultados aparecem na tela
-\end{verbatim}
+    \end{verbatim}
 
-\subsection{Classe \texttt{AlgorithmHandler}}
+    \subsection{Classe \texttt{AlgorithmHandler}}
 
-Controller para execução de algoritmos de análise.
+    Controller para execução de algoritmos de análise.
 
-\subsubsection{Responsabilidades}
+    \subsubsection{Responsabilidades}
 
-\begin{itemize}
-    \item Validar tamanho do grafo
-    \item Executar algoritmos de GraphAlgorithms
-    \item Formatar resultados para exibição
-    \item Alertar usuário sobre operações pesadas
-    \item Atualizar lista de top nós (centralidades)
-\end{itemize}
+    \begin{itemize}
+        \item Validar tamanho do grafo
+        \item Executar algoritmos de GraphAlgorithms
+        \item Formatar resultados para exibição
+        \item Alertar usuário sobre operações pesadas
+        \item Atualizar lista de top nós (centralidades)
+    \end{itemize}
 
-\subsubsection{Métodos Principais}
+    \subsubsection{Métodos Principais}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Método} & \textbf{Descrição} \\
-\hline
-\texttt{checkConnectivity()} & Chama algs.isConnected() \\
-\hline
-\texttt{getComponents()} & Chama algs.getComponents() \\
-\hline
-\texttt{checkEulerian()} & Chama algs.isEulerian() \\
-\hline
-\texttt{hasCycle()} & Chama algs.hasCycle() \\
-\hline
-\texttt{closenessCentrality()} & Chama algs.closenessCentrality() \\
-\hline
-\texttt{betweennessCentrality()} & Chama algs.betweennessCentrality() \\
-\hline
-\end{tabular}
-\end{table}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|}
+            \hline
+            \textbf{Método} & \textbf{Descrição} \\
+            \hline
+            \texttt{checkConnectivity()} & Chama algs.isConnected() \\
+            \hline
+            \texttt{getComponents()} & Chama algs.getComponents() \\
+            \hline
+            \texttt{checkEulerian()} & Chama algs.isEulerian() \\
+            \hline
+            \texttt{hasCycle()} & Chama algs.hasCycle() \\
+            \hline
+            \texttt{closenessCentrality()} & Chama algs.closenessCentrality() \\
+            \hline
+            \texttt{betweennessCentrality()} & Chama algs.betweennessCentrality() \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-\subsection{Classe \texttt{SocialNetworkHandler}}
+    \subsection{Classe \texttt{SocialNetworkHandler}}
 
-Controller para operações de rede social.
+    Controller para operações de rede social.
 
-\subsubsection{Responsabilidades}
+    \subsubsection{Responsabilidades}
 
-\begin{itemize}
-    \item Processar requisições de recomendação
-    \item Validar entrada do usuário
-    \item Chamar SocialNetwork.recommendFollower()
-    \item Formatar caminho encontrado para exibição
-    \item Atualizar resultado na interface
-\end{itemize}
+    \begin{itemize}
+        \item Processar requisições de recomendação
+        \item Validar entrada do usuário
+        \item Chamar SocialNetwork.recommendFollower()
+        \item Formatar caminho encontrado para exibição
+        \item Atualizar resultado na interface
+    \end{itemize}
 
-\subsection{Classe \texttt{GraphPanel}}
+    \subsection{Classe \texttt{GraphPanel}}
 
-Renderizador visual do grafo em um canvas (JPanel).
+    Renderizador visual do grafo em um canvas (JPanel).
 
-\subsubsection{Responsabilidades}
+    \subsubsection{Responsabilidades}
 
-\begin{itemize}
-    \item Desenhar vértices (círculos coloridos)
-    \item Desenhar arestas (setas direcionadas)
-    \item Suportar pan (movimento) interativo
-    \item Suportar zoom (ampliação/redução)
-    \item Usar design tokens de Theme
-\end{itemize}
+    \begin{itemize}
+        \item Desenhar vértices (círculos coloridos)
+        \item Desenhar arestas (setas direcionadas)
+        \item Suportar pan (movimento) interativo
+        \item Suportar zoom (ampliação/redução)
+        \item Usar design tokens de Theme
+    \end{itemize}
 
-\subsubsection{Algoritmo de Renderização}
+    \subsubsection{Algoritmo de Renderização}
 
-\begin{verbatim}
+    \begin{verbatim}
 paintComponent(Graphics2D g):
   1. Limpa canvas
   2. Para cada aresta (u, v):
@@ -756,80 +756,80 @@ paintComponent(Graphics2D g):
      - Desenha círculo colorido
      - Desenha rótulo centralizado
   4. Aplica transformações (pan + zoom)
-\end{verbatim}
+    \end{verbatim}
 
-\subsection{Classe \texttt{GraphUIState}}
+    \subsection{Classe \texttt{GraphUIState}}
 
-Gerenciador centralizado de estado da aplicação.
+    Gerenciador centralizado de estado da aplicação.
 
-\subsubsection{Estado Gerenciado}
+    \subsubsection{Estado Gerenciado}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Propriedade} & \textbf{Tipo} \\
-\hline
-\texttt{currentGraph} & \texttt{Graph} \\
-\hline
-\texttt{algorithms} & \texttt{GraphAlgorithms} \\
-\hline
-\texttt{socialNetwork} & \texttt{SocialNetwork} \\
-\hline
-\texttt{lastResults} & \texttt{String} \\
-\hline
-\texttt{topNodes} & \texttt{List<Integer>} \\
-\hline
-\end{tabular}
-\end{table}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|}
+            \hline
+            \textbf{Propriedade} & \textbf{Tipo} \\
+            \hline
+            \texttt{currentGraph} & \texttt{Graph} \\
+            \hline
+            \texttt{algorithms} & \texttt{GraphAlgorithms} \\
+            \hline
+            \texttt{socialNetwork} & \texttt{SocialNetwork} \\
+            \hline
+            \texttt{lastResults} & \texttt{String} \\
+            \hline
+            \texttt{topNodes} & \texttt{List<Integer>} \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-\subsection{Classe \texttt{Theme}}
+    \subsection{Classe \texttt{Theme}}
 
-Sistema de design tokens centralizado.
+    Sistema de design tokens centralizado.
 
-\subsubsection{Tokens Fornecidos}
+    \subsubsection{Tokens Fornecidos}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Token} & \textbf{Valor} \\
-\hline
-\texttt{PRIMARY\_COLOR} & Cor primária da aplicação \\
-\hline
-\texttt{SECONDARY\_COLOR} & Cor secundária \\
-\hline
-\texttt{BACKGROUND\_COLOR} & Cor de fundo \\
-\hline
-\texttt{FONT\_FAMILY} & Font padrão \\
-\hline
-\texttt{FONT\_SIZE} & Tamanho de fonte padrão \\
-\hline
-\texttt{PADDING} & Espaçamento padrão \\
-\hline
-\end{tabular}
-\end{table}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|}
+            \hline
+            \textbf{Token} & \textbf{Valor} \\
+            \hline
+            \texttt{PRIMARY\_COLOR} & Cor primária da aplicação \\
+            \hline
+            \texttt{SECONDARY\_COLOR} & Cor secundária \\
+            \hline
+            \texttt{BACKGROUND\_COLOR} & Cor de fundo \\
+            \hline
+            \texttt{FONT\_FAMILY} & Font padrão \\
+            \hline
+            \texttt{FONT\_SIZE} & Tamanho de fonte padrão \\
+            \hline
+            \texttt{PADDING} & Espaçamento padrão \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-\subsection{Componentes Customizados}
+    \subsection{Componentes Customizados}
 
-\begin{itemize}
-    \item \textbf{PrimaryButton} — Botão primário com hover effects
-    \item \textbf{MenuActionButton} — Botão com ícone e label
-    \item \textbf{CollapsiblePanel} — Painel expansível/colapsável
-    \item \textbf{ProgressDialog} — Diálogo com barra de progresso
-    \item \textbf{VectorIcon} — Ícones vetoriais escaláveis
-\end{itemize}
+    \begin{itemize}
+        \item \textbf{PrimaryButton} — Botão primário com hover effects
+        \item \textbf{MenuActionButton} — Botão com ícone e label
+        \item \textbf{CollapsiblePanel} — Painel expansível/colapsável
+        \item \textbf{ProgressDialog} — Diálogo com barra de progresso
+        \item \textbf{VectorIcon} — Ícones vetoriais escaláveis
+    \end{itemize}
 
-\newpage
+    \newpage
 
 % ================================================================
 % SEÇÃO 8: FLUXOS DE DADOS PRINCIPAIS
 % ================================================================
-\section{Fluxos de Dados Principais}
+    \section{Fluxos de Dados Principais}
 
-\subsection{Fluxo 1: Inicialização da Aplicação}
+    \subsection{Fluxo 1: Inicialização da Aplicação}
 
-\begin{verbatim}
+    \begin{verbatim}
 Main.main(String[])
   ↓
 Menu.chooseConsoleMode()
@@ -844,11 +844,11 @@ Menu.chooseConsoleMode()
   └─ Se Console:
       └─ Main.showMainMenu()
            └─ Loop interativo CLI
-\end{verbatim}
+    \end{verbatim}
 
-\subsection{Fluxo 2: Geração de Rede Social}
+    \subsection{Fluxo 2: Geração de Rede Social}
 
-\begin{verbatim}
+    \begin{verbatim}
 Usuário clica "Gerar Rede Social"
   ↓
 GraphGUI.onGenerateSocialNetwork() [ActionListener]
@@ -865,11 +865,11 @@ GraphLoadingHandler.generateSocialNetwork()
   ├─ GraphPanel.setGraph(g)
   └─ updateResults()
        └─ Exibe estatísticas no sidebar direito
-\end{verbatim}
+    \end{verbatim}
 
-\subsection{Fluxo 3: Execução de Algoritmo (Exemplo: Conectividade)}
+    \subsection{Fluxo 3: Execução de Algoritmo (Exemplo: Conectividade)}
 
-\begin{verbatim}
+    \begin{verbatim}
 Usuário clica "Conectividade"
   ↓
 GraphGUI.onCheckConnectivity() [ActionListener]
@@ -883,11 +883,11 @@ AlgorithmHandler.checkConnectivity()
   ├─ Formata resultado em String
   └─ GraphGUI.updateResults(resultado)
        └─ Exibe "Connected: Yes/No" no sidebar direito
-\end{verbatim}
+    \end{verbatim}
 
-\subsection{Fluxo 4: Sistema de Recomendação de Seguidores}
+    \subsection{Fluxo 4: Sistema de Recomendação de Seguidores}
 
-\begin{verbatim}
+    \begin{verbatim}
 Usuário digita "Alice" e "Carol"
   ↓
 GraphGUI.onRecommendFollower()
@@ -905,11 +905,11 @@ SocialNetworkHandler.recommendFollower("Alice", "Carol")
   │   └─ Formata resultado: "Recommended! Path: Alice → ... → Carol"
   ├─ GraphGUI.updateResults(resultado)
   └─ GraphPanel destaca caminho (opcional)
-\end{verbatim}
+    \end{verbatim}
 
-\subsection{Fluxo 5: Centralidade de Intermediação (Brandes)}
+    \subsection{Fluxo 5: Centralidade de Intermediação (Brandes)}
 
-\begin{verbatim}
+    \begin{verbatim}
 Usuário clica "Betweenness Centrality"
   ↓
 AlgorithmHandler.betweennessCentrality()
@@ -924,37 +924,37 @@ AlgorithmHandler.betweennessCentrality()
   ├─ Extrai top 10
   └─ GraphGUI.updateResults() e lstTopNodes
        └─ Exibe nomes e valores no sidebar direito
-\end{verbatim}
+    \end{verbatim}
 
-\newpage
+    \newpage
 
 % ================================================================
 % SEÇÃO 9: PADRÕES DE DESIGN
 % ================================================================
-\section{Padrões de Design}
+    \section{Padrões de Design}
 
-\subsection{MVC (Model-View-Controller)}
+    \subsection{MVC (Model-View-Controller)}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Componente} & \textbf{Papel} & \textbf{Classe(s)} \\
-\hline
-\textbf{Model} & Dados e lógica & Graph, GraphAlgorithms, SocialNetwork \\
-\hline
-\textbf{View} & Apresentação & GraphGUI, GraphPanel, componentes customizados \\
-\hline
-\textbf{Controller} & Orquestração & Handlers (Loading, Algorithm, SocialNetwork) \\
-\hline
-\end{tabular}
-\end{table}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|l|}
+            \hline
+            \textbf{Componente} & \textbf{Papel} & \textbf{Classe(s)} \\
+            \hline
+            \textbf{Model} & Dados e lógica & Graph, GraphAlgorithms, SocialNetwork \\
+            \hline
+            \textbf{View} & Apresentação & GraphGUI, GraphPanel, componentes customizados \\
+            \hline
+            \textbf{Controller} & Orquestração & Handlers (Loading, Algorithm, SocialNetwork) \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-\subsection{Facade}
+    \subsection{Facade}
 
-\texttt{GraphGUI} expõe interface unificada para manipulação de handlers:
+    \texttt{GraphGUI} expõe interface unificada para manipulação de handlers:
 
-\begin{lstlisting}[language=Java, caption=Facade em GraphGUI]
+    \begin{lstlisting}[language=Java, caption=Facade em GraphGUI]
 public void onGenerateSocialNetwork() {
     loadingHandler.generateSocialNetwork();
 }
@@ -966,96 +966,96 @@ public void onCheckConnectivity() {
 public void onRecommendFollower(String src, String tgt) {
     socialHandler.recommendFollower(src, tgt);
 }
-\end{lstlisting}
+    \end{lstlisting}
 
-\subsection{Dependency Injection}
+    \subsection{Dependency Injection}
 
-Handlers recebem dependências via construtor:
+    Handlers recebem dependências via construtor:
 
-\begin{lstlisting}[language=Java, caption=Injeção de Dependência]
+    \begin{lstlisting}[language=Java, caption=Injeção de Dependência]
 // Em GraphGUI.initComponents():
 GraphUIState state = new GraphUIState();
 GraphLoadingHandler handler =
     new GraphLoadingHandler(state, graphPanel, progressCallback);
-\end{lstlisting}
+    \end{lstlisting}
 
-\subsection{Factory}
+    \subsection{Factory}
 
-\texttt{GraphGenerator} usa factory methods estáticos:
+    \texttt{GraphGenerator} usa factory methods estáticos:
 
-\begin{lstlisting}[language=Java, caption=Factory Pattern]
+    \begin{lstlisting}[language=Java, caption=Factory Pattern]
 Graph g1 = GraphGenerator.generateSocialNetwork("names.txt");
 Graph g2 = GraphGenerator.generateRandomGraph(100, 500, true);
-\end{lstlisting}
+    \end{lstlisting}
 
-\subsection{Strategy}
+    \subsection{Strategy}
 
-Múltiplos algoritmos em \texttt{GraphAlgorithms}:
+    Múltiplos algoritmos em \texttt{GraphAlgorithms}:
 
-\begin{lstlisting}[language=Java, caption=Strategy Pattern]
+    \begin{lstlisting}[language=Java, caption=Strategy Pattern]
 double[] closeness = algs.closenessCentrality();   // Dijkstra
 double[] between = algs.betweennessCentrality();   // Brandes
 boolean hasCycle = algs.hasCycle();                // DFS Coloração
-\end{lstlisting}
+    \end{lstlisting}
 
-\subsection{Observer}
+    \subsection{Observer}
 
-Callbacks para atualização de UI:
+    Callbacks para atualização de UI:
 
-\begin{lstlisting}[language=Java, caption=Observer Pattern]
+    \begin{lstlisting}[language=Java, caption=Observer Pattern]
 loadingHandler.setProgressCallback((percent) -> {
     progressDialog.setValue(percent);
     SwingUtilities.invokeLater(() -> repaint());
 });
-\end{lstlisting}
+    \end{lstlisting}
 
-\newpage
+    \newpage
 
 % ================================================================
 % SEÇÃO 10: ANÁLISE DE DEPENDÊNCIAS
 % ================================================================
-\section{Análise de Dependências}
+    \section{Análise de Dependências}
 
-\subsection{Matriz de Dependências entre Classes}
+    \subsection{Matriz de Dependências entre Classes}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|l|l|l|}
-\hline
-\textbf{Classe} & \textbf{Depende De} & \textbf{Usado Por} & \textbf{Tipo} \\
-\hline
-\texttt{Graph} & Nenhuma & Todos & Estrutura \\
-\hline
-\texttt{GraphAlgorithms} & Graph & Handlers, Main & Algoritmos \\
-\hline
-\texttt{SocialNetwork} & Graph & Handlers, Main & Domínio \\
-\hline
-\texttt{GraphGenerator} & Graph, NamesLoader & Main, Handlers & Factory \\
-\hline
-\texttt{NamesLoader} & File I/O & GraphGenerator & Utilitário \\
-\hline
-\texttt{PajekIO} & Graph, File I/O & Main, Handlers & I/O \\
-\hline
-\texttt{GraphGUI} & Todos os Handlers & Main & Orquestrador \\
-\hline
-\texttt{GraphLoadingHandler} & GraphUIState, GraphPanel & GraphGUI & Controller \\
-\hline
-\texttt{AlgorithmHandler} & GraphUIState & GraphGUI & Controller \\
-\hline
-\texttt{SocialNetworkHandler} & GraphUIState & GraphGUI & Controller \\
-\hline
-\texttt{GraphUIState} & Graph, Algs, Social & Handlers & Estado \\
-\hline
-\texttt{GraphPanel} & Graph & GraphGUI, Handlers & Vista \\
-\hline
-\texttt{Theme} & Nenhuma & Componentes & Tokens \\
-\hline
-\end{tabular}
-\end{table}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|l|l|l|}
+            \hline
+            \textbf{Classe} & \textbf{Depende De} & \textbf{Usado Por} & \textbf{Tipo} \\
+            \hline
+            \texttt{Graph} & Nenhuma & Todos & Estrutura \\
+            \hline
+            \texttt{GraphAlgorithms} & Graph & Handlers, Main & Algoritmos \\
+            \hline
+            \texttt{SocialNetwork} & Graph & Handlers, Main & Domínio \\
+            \hline
+            \texttt{GraphGenerator} & Graph, NamesLoader & Main, Handlers & Factory \\
+            \hline
+            \texttt{NamesLoader} & File I/O & GraphGenerator & Utilitário \\
+            \hline
+            \texttt{PajekIO} & Graph, File I/O & Main, Handlers & I/O \\
+            \hline
+            \texttt{GraphGUI} & Todos os Handlers & Main & Orquestrador \\
+            \hline
+            \texttt{GraphLoadingHandler} & GraphUIState, GraphPanel & GraphGUI & Controller \\
+            \hline
+            \texttt{AlgorithmHandler} & GraphUIState & GraphGUI & Controller \\
+            \hline
+            \texttt{SocialNetworkHandler} & GraphUIState & GraphGUI & Controller \\
+            \hline
+            \texttt{GraphUIState} & Graph, Algs, Social & Handlers & Estado \\
+            \hline
+            \texttt{GraphPanel} & Graph & GraphGUI, Handlers & Vista \\
+            \hline
+            \texttt{Theme} & Nenhuma & Componentes & Tokens \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-\subsection{Direção das Dependências}
+    \subsection{Direção das Dependências}
 
-\begin{verbatim}
+    \begin{verbatim}
 GUI (não depende de backend)
   ↓
 Handlers (orquestram operações)
@@ -1066,383 +1066,383 @@ Graph ← GraphAlgorithms (não-direcionado, usa o mesmo Graph)
         ← SocialNetwork (não-direcionado, usa o mesmo Graph)
   ↓
 GraphGenerator, PajekIO, NamesLoader (utilitários para criar/carregar)
-\end{verbatim}
+    \end{verbatim}
 
-\subsection{Garantias de Acoplamento Baixo}
+    \subsection{Garantias de Acoplamento Baixo}
 
-\begin{itemize}
-    \item \textbf{Algoritmos são puros:} GraphAlgorithms não conhece GUI
-    \item \textbf{Domínio é puro:} SocialNetwork não conhece Handlers
-    \item \textbf{Graph é read-only:} Não há callbacks ou listeners
-    \item \textbf{Handlers recebem dependências:} Não instanciam suas dependências
-    \item \textbf{Inversão de controle:} Main/GraphGUI orquestram, não as classes
-\end{itemize}
+    \begin{itemize}
+        \item \textbf{Algoritmos são puros:} GraphAlgorithms não conhece GUI
+        \item \textbf{Domínio é puro:} SocialNetwork não conhece Handlers
+        \item \textbf{Graph é read-only:} Não há callbacks ou listeners
+        \item \textbf{Handlers recebem dependências:} Não instanciam suas dependências
+        \item \textbf{Inversão de controle:} Main/GraphGUI orquestram, não as classes
+    \end{itemize}
 
-\newpage
+    \newpage
 
 % ================================================================
 % SEÇÃO 11: ANÁLISE DE COMPLEXIDADE
 % ================================================================
-\section{Análise de Complexidade}
+    \section{Análise de Complexidade}
 
-\subsection{Algoritmos}
+    \subsection{Algoritmos}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|l|l|}
-\hline
-\textbf{Algoritmo} & \textbf{Tempo} & \textbf{Espaço} & \textbf{Observação} \\
-\hline
-Conectividade & O(V+E) & O(V) & BFS \\
-\hline
-Componentes & O(V+E) & O(V) & BFS \\
-\hline
-Euleriano & O(V+E) & O(V) & Contagem de graus \\
-\hline
-Ciclo & O(V+E) & O(V) & DFS com coloração \\
-\hline
-Dijkstra & O((V+E)logV) & O(V) & Heap binário \\
-\hline
-Closeness & O(V(V+E)logV) & O(V) & V×Dijkstra \\
-\hline
-Betweenness (Brandes) & O(V(V+E)logV) & O(V) & V×Dijkstra \\
-\hline
-\end{tabular}
-\end{table}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|l|l|}
+            \hline
+            \textbf{Algoritmo} & \textbf{Tempo} & \textbf{Espaço} & \textbf{Observação} \\
+            \hline
+            Conectividade & O(V+E) & O(V) & BFS \\
+            \hline
+            Componentes & O(V+E) & O(V) & BFS \\
+            \hline
+            Euleriano & O(V+E) & O(V) & Contagem de graus \\
+            \hline
+            Ciclo & O(V+E) & O(V) & DFS com coloração \\
+            \hline
+            Dijkstra & O((V+E)logV) & O(V) & Heap binário \\
+            \hline
+            Closeness & O(V(V+E)logV) & O(V) & V×Dijkstra \\
+            \hline
+            Betweenness (Brandes) & O(V(V+E)logV) & O(V) & V×Dijkstra \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-\subsection{Complexidade para Rede Social (V=5000, E=30000)}
+    \subsection{Complexidade para Rede Social (V=5000, E=30000)}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Operação} & \textbf{Complexidade Teórica} & \textbf{Tempo Estimado} \\
-\hline
-Conectividade & O(35000) & <1 segundo \\
-\hline
-Componentes & O(35000) & <1 segundo \\
-\hline
-Euleriano & O(35000) & <1 segundo \\
-\hline
-Ciclo & O(35000) & <1 segundo \\
-\hline
-Closeness (Top 10) & O(5000×35000×log5000) & 5-10 minutos \\
-\hline
-Betweenness (Top 10) & O(5000×35000×log5000) & 5-10 minutos \\
-\hline
-Recomendação (DFS) & O(35000) no pior caso & <1 segundo típico \\
-\hline
-\end{tabular}
-\end{table}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|l|}
+            \hline
+            \textbf{Operação} & \textbf{Complexidade Teórica} & \textbf{Tempo Estimado} \\
+            \hline
+            Conectividade & O(35000) & <1 segundo \\
+            \hline
+            Componentes & O(35000) & <1 segundo \\
+            \hline
+            Euleriano & O(35000) & <1 segundo \\
+            \hline
+            Ciclo & O(35000) & <1 segundo \\
+            \hline
+            Closeness (Top 10) & O(5000×35000×log5000) & 5-10 minutos \\
+            \hline
+            Betweenness (Top 10) & O(5000×35000×log5000) & 5-10 minutos \\
+            \hline
+            Recomendação (DFS) & O(35000) no pior caso & <1 segundo típico \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-Nota: Centralidades são operações pesadas. A aplicação alerta usuário antes de executar em grafos > 500 vértices.
+    Nota: Centralidades são operações pesadas. A aplicação alerta usuário antes de executar em grafos > 500 vértices.
 
-\newpage
+    \newpage
 
 % ================================================================
 % SEÇÃO 12: ESTRUTURA DE PACOTES E RESPONSABILIDADES
 % ================================================================
-\section{Estrutura de Pacotes e Responsabilidades}
+    \section{Estrutura de Pacotes e Responsabilidades}
 
-\subsection{Pacote \texttt{graph.model}}
+    \subsection{Pacote \texttt{graph.model}}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Classe} & \textbf{Responsabilidade} \\
-\hline
-\texttt{Graph} & Estrutura de dados de grafo \\
-\hline
-\end{tabular}
-\end{table}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|}
+            \hline
+            \textbf{Classe} & \textbf{Responsabilidade} \\
+            \hline
+            \texttt{Graph} & Estrutura de dados de grafo \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-\subsection{Pacote \texttt{graph.algorithm}}
+    \subsection{Pacote \texttt{graph.algorithm}}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Classe} & \textbf{Responsabilidade} \\
-\hline
-\texttt{GraphAlgorithms} & 7 algoritmos + helpers privados \\
-\hline
-\end{tabular}
-\end{table}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|}
+            \hline
+            \textbf{Classe} & \textbf{Responsabilidade} \\
+            \hline
+            \texttt{GraphAlgorithms} & 7 algoritmos + helpers privados \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-\subsection{Pacote \texttt{graph.domain}}
+    \subsection{Pacote \texttt{graph.domain}}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Classe} & \textbf{Responsabilidade} \\
-\hline
-\texttt{SocialNetwork} & Lógica de recomendação + DFS \\
-\hline
-\end{tabular}
-\end{table}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|}
+            \hline
+            \textbf{Classe} & \textbf{Responsabilidade} \\
+            \hline
+            \texttt{SocialNetwork} & Lógica de recomendação + DFS \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-\subsection{Pacote \texttt{graph.io}}
+    \subsection{Pacote \texttt{graph.io}}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Classe} & \textbf{Responsabilidade} \\
-\hline
-\texttt{PajekIO} & Importação/exportação (estático) \\
-\hline
-\texttt{NamesLoader} & Carregamento de nomes (estático) \\
-\hline
-\end{tabular}
-\end{table}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|}
+            \hline
+            \textbf{Classe} & \textbf{Responsabilidade} \\
+            \hline
+            \texttt{PajekIO} & Importação/exportação (estático) \\
+            \hline
+            \texttt{NamesLoader} & Carregamento de nomes (estático) \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-\subsection{Pacote \texttt{graph.generator}}
+    \subsection{Pacote \texttt{graph.generator}}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Classe} & \textbf{Responsabilidade} \\
-\hline
-\texttt{GraphGenerator} & Factory para criação de grafos (estático) \\
-\hline
-\end{tabular}
-\end{table}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|}
+            \hline
+            \textbf{Classe} & \textbf{Responsabilidade} \\
+            \hline
+            \texttt{GraphGenerator} & Factory para criação de grafos (estático) \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-\subsection{Pacote \texttt{graph.gui}}
+    \subsection{Pacote \texttt{graph.gui}}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Classe} & \textbf{Responsabilidade} \\
-\hline
-\texttt{GraphGUI} & Orquestração de UI + roteamento de eventos \\
-\hline
-\texttt{GraphPanel} & Renderização de grafo \\
-\hline
-\texttt{GraphUIState} & Gerenciamento centralizado de estado \\
-\hline
-\texttt{GraphLoadingHandler} & Carregamento/geração \\
-\hline
-\texttt{AlgorithmHandler} & Execução de algoritmos \\
-\hline
-\texttt{SocialNetworkHandler} & Recomendações \\
-\hline
-\texttt{ProgressDialog} & Diálogo de progresso \\
-\hline
-\texttt{Theme} & Design tokens \\
-\hline
-\texttt{PrimaryButton} & Botão customizado \\
-\hline
-\texttt{MenuActionButton} & Botão de ação customizado \\
-\hline
-\texttt{CollapsiblePanel} & Painel expansível \\
-\hline
-\texttt{VectorIcon} & Ícones vetoriais \\
-\hline
-\end{tabular}
-\end{table}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|}
+            \hline
+            \textbf{Classe} & \textbf{Responsabilidade} \\
+            \hline
+            \texttt{GraphGUI} & Orquestração de UI + roteamento de eventos \\
+            \hline
+            \texttt{GraphPanel} & Renderização de grafo \\
+            \hline
+            \texttt{GraphUIState} & Gerenciamento centralizado de estado \\
+            \hline
+            \texttt{GraphLoadingHandler} & Carregamento/geração \\
+            \hline
+            \texttt{AlgorithmHandler} & Execução de algoritmos \\
+            \hline
+            \texttt{SocialNetworkHandler} & Recomendações \\
+            \hline
+            \texttt{ProgressDialog} & Diálogo de progresso \\
+            \hline
+            \texttt{Theme} & Design tokens \\
+            \hline
+            \texttt{PrimaryButton} & Botão customizado \\
+            \hline
+            \texttt{MenuActionButton} & Botão de ação customizado \\
+            \hline
+            \texttt{CollapsiblePanel} & Painel expansível \\
+            \hline
+            \texttt{VectorIcon} & Ícones vetoriais \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-\subsection{Pacote \texttt{graph} (raiz)}
+    \subsection{Pacote \texttt{graph} (raiz)}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Classe} & \textbf{Responsabilidade} \\
-\hline
-\texttt{Main} & Ponto de entrada + menu CLI \\
-\hline
-\texttt{Menu} & Seletor GUI/CLI \\
-\hline
-\end{tabular}
-\end{table}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|l|l|}
+            \hline
+            \textbf{Classe} & \textbf{Responsabilidade} \\
+            \hline
+            \texttt{Main} & Ponto de entrada + menu CLI \\
+            \hline
+            \texttt{Menu} & Seletor GUI/CLI \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-\newpage
+    \newpage
 
 % ================================================================
 % SEÇÃO 13: PRINCÍPIOS SOLID APLICADOS
 % ================================================================
-\section{Princípios SOLID Aplicados}
+    \section{Princípios SOLID Aplicados}
 
-\subsection{S — Single Responsibility Principle}
+    \subsection{S — Single Responsibility Principle}
 
-Cada classe tem uma única responsabilidade bem definida:
+    Cada classe tem uma única responsabilidade bem definida:
 
-\begin{itemize}
-    \item \texttt{Graph} — Apenas armazenar e consultar estrutura
-    \item \texttt{GraphAlgorithms} — Apenas executar algoritmos
-    \item \texttt{SocialNetwork} — Apenas lógica de domínio
-    \item \texttt{GraphGUI} — Apenas orquestração de UI
-    \item \texttt{Handlers} — Apenas roteamento de eventos
-\end{itemize}
+    \begin{itemize}
+        \item \texttt{Graph} — Apenas armazenar e consultar estrutura
+        \item \texttt{GraphAlgorithms} — Apenas executar algoritmos
+        \item \texttt{SocialNetwork} — Apenas lógica de domínio
+        \item \texttt{GraphGUI} — Apenas orquestração de UI
+        \item \texttt{Handlers} — Apenas roteamento de eventos
+    \end{itemize}
 
-\subsection{O — Open/Closed Principle}
+    \subsection{O — Open/Closed Principle}
 
-Estrutura aberta para extensão, fechada para modificação:
+    Estrutura aberta para extensão, fechada para modificação:
 
-\begin{itemize}
-    \item Novos algoritmos podem ser adicionados a \texttt{GraphAlgorithms} sem modificar código existente
-    \item Novos componentes customizados podem ser criados herdando de \texttt{JComponent}
-    \item Novo handlers podem ser criados herdando interface padrão
-\end{itemize}
+    \begin{itemize}
+        \item Novos algoritmos podem ser adicionados a \texttt{GraphAlgorithms} sem modificar código existente
+        \item Novos componentes customizados podem ser criados herdando de \texttt{JComponent}
+        \item Novo handlers podem ser criados herdando interface padrão
+    \end{itemize}
 
-\subsection{L — Liskov Substitution Principle}
+    \subsection{L — Liskov Substitution Principle}
 
-Componentes customizados substituem \texttt{JComponent} sem quebrar contrato:
+    Componentes customizados substituem \texttt{JComponent} sem quebrar contrato:
 
-\begin{lstlisting}[language=Java, caption=LSP em Componentes Customizados]
+    \begin{lstlisting}[language=Java, caption=LSP em Componentes Customizados]
 JComponent btn = new PrimaryButton("Click me");
 JComponent panel = new CollapsiblePanel("Title");
 // Ambos podem ser usados onde JComponent é esperado
-\end{lstlisting}
+    \end{lstlisting}
 
-\subsection{I — Interface Segregation Principle}
+    \subsection{I — Interface Segregation Principle}
 
-Interfaces pequenas e focadas:
+    Interfaces pequenas e focadas:
 
-\begin{lstlisting}[language=Java, caption=ISP em Listeners]
+    \begin{lstlisting}[language=Java, caption=ISP em Listeners]
 loadingHandler.setProgressCallback(value -> {...});
 // Não forçamos handler a implementar interface monolítica
-\end{lstlisting}
+    \end{lstlisting}
 
-\subsection{D — Dependency Inversion Principle}
+    \subsection{D — Dependency Inversion Principle}
 
-Dependências apontam para abstrações, não para concretos:
+    Dependências apontam para abstrações, não para concretos:
 
-\begin{lstlisting}[language=Java, caption=DIP em Handlers]
+    \begin{lstlisting}[language=Java, caption=DIP em Handlers]
 // Handler não cria GraphUIState, recebe via construtor
 handler = new AlgorithmHandler(state);
 // Desacopla criação de injeção
-\end{lstlisting}
+    \end{lstlisting}
 
-\newpage
+    \newpage
 
 % ================================================================
 % SEÇÃO 14: REFACTORIZAÇÕES REALIZADAS
 % ================================================================
-\section{Refactorizações Realizadas}
+    \section{Refactorizações Realizadas}
 
-\subsection{Refatoração 1: Extração de Algoritmos}
+    \subsection{Refatoração 1: Extração de Algoritmos}
 
-\textbf{Antes:} Graph era uma God Class com ~340 linhas contendo algoritmos, geração e I/O.
+    \textbf{Antes:} Graph era uma God Class com ~340 linhas contendo algoritmos, geração e I/O.
 
-\textbf{Depois:}
-\begin{itemize}
-    \item Algoritmos extraídos para \texttt{GraphAlgorithms} (classe dedicada)
-    \item Geração extraída para \texttt{GraphGenerator}
-    \item I/O extraído para \texttt{PajekIO}
-    \item Graph reduzida para ~100 linhas de estrutura pura
-\end{itemize}
+    \textbf{Depois:}
+    \begin{itemize}
+        \item Algoritmos extraídos para \texttt{GraphAlgorithms} (classe dedicada)
+        \item Geração extraída para \texttt{GraphGenerator}
+        \item I/O extraído para \texttt{PajekIO}
+        \item Graph reduzida para ~100 linhas de estrutura pura
+    \end{itemize}
 
-\subsection{Refatoração 2: Refactoring de GUI}
+    \subsection{Refatoração 2: Refactoring de GUI}
 
-\textbf{Antes:} GraphGUI era monolítica com 1600+ linhas.
+    \textbf{Antes:} GraphGUI era monolítica com 1600+ linhas.
 
-\textbf{Depois:}
-\begin{itemize}
-    \item Orquestração pura em GraphGUI (~250 linhas)
-    \item Carregamento em GraphLoadingHandler
-    \item Algoritmos em AlgorithmHandler
-    \item Domínio em SocialNetworkHandler
-    \item Estado em GraphUIState
-    \item Renderização em GraphPanel
-    \item Design tokens em Theme
-\end{itemize}
+    \textbf{Depois:}
+    \begin{itemize}
+        \item Orquestração pura em GraphGUI (~250 linhas)
+        \item Carregamento em GraphLoadingHandler
+        \item Algoritmos em AlgorithmHandler
+        \item Domínio em SocialNetworkHandler
+        \item Estado em GraphUIState
+        \item Renderização em GraphPanel
+        \item Design tokens em Theme
+    \end{itemize}
 
-\subsection{Refatoração 3: Encapsulamento}
+    \subsection{Refatoração 3: Encapsulamento}
 
-\textbf{Antes:} Campo \texttt{adj} era package-private, permitindo acesso direto.
+    \textbf{Antes:} Campo \texttt{adj} era package-private, permitindo acesso direto.
 
-\textbf{Depois:}
-\begin{itemize}
-    \item \texttt{adj} agora é \texttt{private}
-    \item Novo método público \texttt{neighbors(int)} para acesso seguro
-    \item GraphAlgorithms e SocialNetwork usam \texttt{neighbors()} em vez de acesso direto
-\end{itemize}
+    \textbf{Depois:}
+    \begin{itemize}
+        \item \texttt{adj} agora é \texttt{private}
+        \item Novo método público \texttt{neighbors(int)} para acesso seguro
+        \item GraphAlgorithms e SocialNetwork usam \texttt{neighbors()} em vez de acesso direto
+    \end{itemize}
 
-\subsection{Refatoração 4: Eliminação de Duplicação}
+    \subsection{Refatoração 4: Eliminação de Duplicação}
 
-\textbf{Antes:} Código de geração de nomes era duplicado.
+    \textbf{Antes:} Código de geração de nomes era duplicado.
 
-\textbf{Depois:}
-\begin{itemize}
-    \item Classe dedicada \texttt{NamesLoader}
-    \item \texttt{GraphGenerator} chama \texttt{NamesLoader}
-    \item Uma única fonte de verdade para carregamento de nomes
-\end{itemize}
+    \textbf{Depois:}
+    \begin{itemize}
+        \item Classe dedicada \texttt{NamesLoader}
+        \item \texttt{GraphGenerator} chama \texttt{NamesLoader}
+        \item Uma única fonte de verdade para carregamento de nomes
+    \end{itemize}
 
-\newpage
+    \newpage
 
 % ================================================================
 % SEÇÃO 15: CONCLUSÃO
 % ================================================================
-\section{Conclusão}
+    \section{Conclusão}
 
-\subsection{Arquitetura Alcançada}
+    \subsection{Arquitetura Alcançada}
 
-GraphNet Analyzer demonstra uma arquitetura bem estruturada, seguindo os princípios SOLID e padrões de design clássicos. A separação clara entre camadas (Apresentação, Domínio, Algoritmos, Estrutura de Dados) resulta em código:
+    GraphNet Analyzer demonstra uma arquitetura bem estruturada, seguindo os princípios SOLID e padrões de design clássicos. A separação clara entre camadas (Apresentação, Domínio, Algoritmos, Estrutura de Dados) resulta em código:
 
-\begin{itemize}
-    \item \textbf{Modular:} Cada classe tem responsabilidade bem definida
-    \item \textbf{Testável:} Componentes podem ser testados isoladamente
-    \item \textbf{Extensível:} Novos algoritmos/componentes podem ser adicionados
-    \item \textbf{Manutenível:} Baixo acoplamento facilita manutenção
-    \item \textbf{Reusável:} Classes podem ser usadas em outros projetos
-\end{itemize}
+    \begin{itemize}
+        \item \textbf{Modular:} Cada classe tem responsabilidade bem definida
+        \item \textbf{Testável:} Componentes podem ser testados isoladamente
+        \item \textbf{Extensível:} Novos algoritmos/componentes podem ser adicionados
+        \item \textbf{Manutenível:} Baixo acoplamento facilita manutenção
+        \item \textbf{Reusável:} Classes podem ser usadas em outros projetos
+    \end{itemize}
 
-\subsection{Características Principais}
+    \subsection{Características Principais}
 
-\begin{enumerate}
-    \item \textbf{Estrutura de Dados Eficiente:} Lista de adjacências para O(1) de adição de arestas
-    \item \textbf{7 Algoritmos Clássicos:} Cobertura completa de análise de grafos
-    \item \textbf{Interface Gráfica Moderna:} Visualização interativa com componentes customizados
-    \item \textbf{Sistema de Recomendação:} DFS com rastreamento de caminho completo
-    \item \textbf{Múltiplos Modos:} GUI e CLI para diferentes casos de uso
-    \item \textbf{I/O Flexível:} Formato Pajek para interoperabilidade
-\end{enumerate}
+    \begin{enumerate}
+        \item \textbf{Estrutura de Dados Eficiente:} Lista de adjacências para O(1) de adição de arestas
+        \item \textbf{7 Algoritmos Clássicos:} Cobertura completa de análise de grafos
+        \item \textbf{Interface Gráfica Moderna:} Visualização interativa com componentes customizados
+        \item \textbf{Sistema de Recomendação:} DFS com rastreamento de caminho completo
+        \item \textbf{Múltiplos Modos:} GUI e CLI para diferentes casos de uso
+        \item \textbf{I/O Flexível:} Formato Pajek para interoperabilidade
+    \end{enumerate}
 
-\subsection{Autoria}
+    \subsection{Autoria}
 
-Este projeto foi desenvolvido colaborativamente por:
+    Este projeto foi desenvolvido colaborativamente por:
 
-\begin{itemize}
-    \item \textbf{Jafte Carneiro Fagundes da Silva} (@cyberfika)
-    \item \textbf{Nicolas Hrescak} (@NicolasHrescak)
-\end{itemize}
+    \begin{itemize}
+        \item \textbf{Jafte Carneiro Fagundes da Silva} (@cyberfika)
+        \item \textbf{Nicolas Hrescak} (@NicolasHrescak)
+    \end{itemize}
 
-Sob orientação do Prof. Fabrício Enembreck, PUCPR — Pontifícia Universidade Católica do Paraná.
+    Sob orientação do Prof. Fabrício Enembreck, PUCPR — Pontifícia Universidade Católica do Paraná.
 
-Todos os arquivos de código foram criados pelos autores, sem uso de templates ou geradores de código automático. A documentação interna (Javadoc) está em 100\% de cobertura em português.
+    Todos os arquivos de código foram criados pelos autores, sem uso de templates ou geradores de código automático. A documentação interna (Javadoc) está em 100\% de cobertura em português.
 
-\subsection{Recomendações para Expansão Futura}
+    \subsection{Recomendações para Expansão Futura}
 
-\begin{enumerate}
-    \item \textbf{Layout de Visualização:} Implementar Force-Directed Layout (Fruchterman-Reingold) para melhor visualização de grafos grandes
-    \item \textbf{Persistência:} Adicionar suporte a banco de dados para grafos muito grandes (>50k vértices)
-    \item \textbf{Testes Automatizados:} Implementar suite de testes JUnit para aumentar confiabilidade
-    \item \textbf{Paralelização:} Usar ExecutorService para paralelizar Dijkstra/Brandes
-    \item \textbf{APIs Adicionais:} Expor como REST API para consumo por outras aplicações
-\end{enumerate}
+    \begin{enumerate}
+        \item \textbf{Layout de Visualização:} Implementar Force-Directed Layout (Fruchterman-Reingold) para melhor visualização de grafos grandes
+        \item \textbf{Persistência:} Adicionar suporte a banco de dados para grafos muito grandes (>50k vértices)
+        \item \textbf{Testes Automatizados:} Implementar suite de testes JUnit para aumentar confiabilidade
+        \item \textbf{Paralelização:} Usar ExecutorService para paralelizar Dijkstra/Brandes
+        \item \textbf{APIs Adicionais:} Expor como REST API para consumo por outras aplicações
+    \end{enumerate}
 
-\appendix
+    \appendix
 
-\section{Referências de Código}
+    \section{Referências de Código}
 
-\subsection{Arquivo de Nomes}
+    \subsection{Arquivo de Nomes}
 
-Localização: \texttt{data/names.txt}
+    Localização: \texttt{data/names.txt}
 
-Formato: Um nome brasileiro por linha (5.000 nomes)
+    Formato: Um nome brasileiro por linha (5.000 nomes)
 
-\subsection{Formato Pajek}
+    \subsection{Formato Pajek}
 
-Arquivo de exemplo: \texttt{pajek/input/example.net}
+    Arquivo de exemplo: \texttt{pajek/input/example.net}
 
-\begin{verbatim}
+    \begin{verbatim}
 *Vertices 3
 1 "Alice"
 2 "Bob"
@@ -1451,11 +1451,11 @@ Arquivo de exemplo: \texttt{pajek/input/example.net}
 1 2 1
 2 3 1
 1 3 1
-\end{verbatim}
+    \end{verbatim}
 
-\subsection{Comando de Compilação}
+    \subsection{Comando de Compilação}
 
-\begin{verbatim}
+    \begin{verbatim}
 javac -encoding UTF-8 -d out \
   src/graph/model/Graph.java \
   src/graph/algorithm/GraphAlgorithms.java \
@@ -1477,18 +1477,18 @@ javac -encoding UTF-8 -d out \
   src/graph/gui/GraphGUI.java \
   src/graph/Menu.java \
   src/graph/Main.java
-\end{verbatim}
+    \end{verbatim}
 
-\subsection{Comando de Execução}
+    \subsection{Comando de Execução}
 
-\begin{verbatim}
+    \begin{verbatim}
 java -cp out graph.Main
-\end{verbatim}
+    \end{verbatim}
 
-Ao iniciar, escolha:
-\begin{itemize}
-    \item [1] Interface Gráfica (padrão, recomendado)
-    \item [2] Modo Console (legado)
-\end{itemize}
+    Ao iniciar, escolha:
+    \begin{itemize}
+        \item [1] Interface Gráfica (padrão, recomendado)
+        \item [2] Modo Console (legado)
+    \end{itemize}
 
 \end{document}
