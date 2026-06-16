@@ -27,3 +27,7 @@ desktop.ini
 
 docs/agents.md
 AGENTS.md
+docs/templates/**
+/docs/templates
+docs/templates
+
