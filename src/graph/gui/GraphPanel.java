@@ -7,13 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Painel interativo para visualização de grafos com zoom, pan e seleção de nós.
@@ -55,7 +52,6 @@ import java.util.Set;
  */
 public class GraphPanel extends JPanel {
     private Graph graph;
-    private GraphAlgorithms algs;
     private int[] nodeCommunities;
     private double[] closenessRank;
     private double[] betweennessRank;
@@ -214,7 +210,6 @@ public class GraphPanel extends JPanel {
      * @param graph novo grafo a visualizar (pode ser {@code null})\n     * @param algs algoritmos para detectar comunidades (componentes conexos)\n     */
     public void setGraph(Graph graph, GraphAlgorithms algs) {
         this.graph = graph;
-        this.algs = algs;
         this.hoveredNodeIndex = -1;
         this.selectedNodeIndex = -1;
         this.draggedNodeIndex = -1;

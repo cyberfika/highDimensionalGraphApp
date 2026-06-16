@@ -287,7 +287,15 @@ public class GraphGUI extends JFrame {
             public void onGraphLoaded(Graph g, boolean fromFile) {
                 state.setGraph(g, fromFile);
                 algorithmHandler = new AlgorithmHandler(g, state.getAlgorithms(),
-                    (html, topIndices) -> { logHTML(html); updateTopNodes(topIndices); });
+                    new AlgorithmHandler.AlgorithmListener() {
+                        public void onResultsReady(String html, List<Integer> topIndices) {
+                            logHTML(html);
+                            updateTopNodes(topIndices);
+                        }
+                        public void onError(String msg) {
+                            logHTML("<font color=\"#ff6b6b\">" + msg + "</font>");
+                        }
+                    });
                 socialHandler = new SocialNetworkHandler(g, state.getSocialNetwork(),
                     (html, path) -> { logHTML(html); graphPanel.setHighlightedPath(path); });
                 graphPanel.setGraph(g, state.getAlgorithms());
@@ -374,7 +382,6 @@ public class GraphGUI extends JFrame {
      * <p>Delega geração ao {@link GraphLoadingHandler}.
      */
     private void showRandomGraphDialog() {
-        String[] opts = {"100", "300"};
         String n = JOptionPane.showInputDialog(this, "Vértices:", "100");
         String m = JOptionPane.showInputDialog(this, "Arestas:", "300");
         if (n != null && m != null) {
