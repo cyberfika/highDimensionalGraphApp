@@ -1,0 +1,77 @@
+@startuml Model and Business Logic
+
+!theme plain
+skinparam backgroundColor #ffffff
+skinparam classBackgroundColor #f0f0f0
+skinparam classBorderColor #333333
+skinparam arrowColor #333333
+
+package "graph.model" {
+    class Graph {
+        +int numVertices
+        +boolean directed
+        -String[] names
+        -List<int[]>[] adj
+        +Graph(int numVertices, boolean directed)
+        +setName(int vertex, String name)
+        +getName(int vertex) String
+        +addEdge(int u, int v, int weight)
+        +findByName(String name) int
+        +neighbors(int u) List<int[]>
+    }
+}
+
+package "graph.algorithm" {
+    class GraphAlgorithms {
+        -Graph graph
+        +GraphAlgorithms(Graph graph)
+        +isConnected() boolean
+        +getComponents() List<List<Integer>>
+        +isEulerian() int
+        +hasCycle() boolean
+        +closenessCentrality() double[]
+        +betweennessCentrality() double[]
+        +dijkstra(int source) int[]
+        -undirectedNeighbors(int u) List<int[]>
+        -bfs(int source, boolean useUndirected) int[]
+        -dfsComponentColoring(int u, int[] color, List<Integer> component)
+        -dfsColorCycle(int u, int[] color) boolean
+    }
+}
+
+package "graph.domain" {
+    class SocialNetwork {
+        -Graph graph
+        +SocialNetwork(Graph graph)
+        +recommendFollower(String source, String target) String
+        -dfsPath(int u, int v, List<Integer> path, boolean[] visited) boolean
+    }
+}
+
+package "graph.io" {
+    class PajekIO {
+        +{static} export(Graph graph, String filename)
+        +{static} importFrom(String filename) Graph
+    }
+
+    class NamesLoader {
+        +{static} load(String filename) List<String>
+    }
+}
+
+package "graph.generator" {
+    class GraphGenerator {
+        +{static} generateRandomGraph(int n, int m, boolean directed) Graph
+        +{static} generateSocialNetwork(String namesFile) Graph
+        -{static} edgeKey(int u, int v) String
+    }
+}
+
+' Relationships
+GraphAlgorithms --> Graph : uses
+SocialNetwork --> Graph : uses
+GraphGenerator --> Graph : creates
+GraphGenerator --> NamesLoader : uses
+PajekIO --> Graph : imports/exports
+
+@enduml

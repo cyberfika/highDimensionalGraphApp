@@ -1,0 +1,113 @@
+@startuml Package Dependencies
+
+!theme plain
+skinparam backgroundColor #ffffff
+skinparam packageBackgroundColor #f5f5f5
+skinparam packageBorderColor #333333
+
+package "Java Standard Library" {
+    package "java.util" {
+        [ArrayList, HashMap, LinkedList, Queue, Stack]
+    }
+    package "javax.swing" {
+        [JFrame, JPanel, JButton, JLabel, Graphics2D]
+    }
+}
+
+package "graph.model" as model_pkg {
+    [Graph]
+}
+
+package "graph.algorithm" as alg_pkg {
+    [GraphAlgorithms]
+}
+
+package "graph.domain" as domain_pkg {
+    [SocialNetwork]
+}
+
+package "graph.io" as io_pkg {
+    [PajekIO]
+    [NamesLoader]
+}
+
+package "graph.generator" as gen_pkg {
+    [GraphGenerator]
+}
+
+package "graph.gui" as gui_pkg {
+    package "State Management" {
+        [GraphUIState]
+    }
+    package "Handlers (Controllers)" {
+        [GraphLoadingHandler]
+        [AlgorithmHandler]
+        [SocialNetworkHandler]
+    }
+    package "Components (Views)" {
+        [GraphGUI]
+        [GraphPanel]
+        [Theme]
+        [PrimaryButton]
+        [MenuActionButton]
+        [CollapsiblePanel]
+        [ProgressDialog]
+        [VectorIcon]
+    }
+}
+
+package "graph.top" as top_pkg {
+    [Menu]
+    [Main]
+}
+
+' Model layer
+GraphAlgorithms ..> Graph : uses
+SocialNetwork ..> Graph : uses
+GraphGenerator ..> Graph : creates
+GraphGenerator ..> NamesLoader : uses
+PajekIO ..> Graph : import/export
+
+' GUI layer
+GraphLoadingHandler ..> GraphUIState : updates
+GraphLoadingHandler ..> GraphGenerator : uses
+GraphLoadingHandler ..> PajekIO : uses
+AlgorithmHandler ..> GraphUIState : reads
+AlgorithmHandler ..> GraphAlgorithms : uses
+SocialNetworkHandler ..> GraphUIState : reads
+SocialNetworkHandler ..> SocialNetwork : uses
+
+GraphGUI ..> GraphUIState : orchestrates
+GraphGUI ..> GraphLoadingHandler : delegates
+GraphGUI ..> AlgorithmHandler : delegates
+GraphGUI ..> SocialNetworkHandler : delegates
+GraphPanel ..> Graph : renders
+
+' Theme usage
+PrimaryButton ..> Theme : uses
+MenuActionButton ..> Theme : uses
+CollapsiblePanel ..> Theme : uses
+ProgressDialog ..> Theme : uses
+VectorIcon ..> Theme : uses
+GraphPanel ..> Theme : uses
+
+' Top level
+Main ..> Menu : uses
+Main ..> GraphGUI : launches
+Main ..> GraphAlgorithms : legacy CLI
+Main ..> SocialNetwork : legacy CLI
+Main ..> GraphGenerator : legacy CLI
+
+' Standard library usage
+GraphAlgorithms ..> "java.util" : ArrayList, LinkedList, Queue, Stack
+GraphGenerator ..> "java.util" : Random, ArrayList
+PajekIO ..> "java.util" : ArrayList, Scanner, PrintWriter
+NamesLoader ..> "java.util" : ArrayList, Scanner
+GraphGUI ..> "javax.swing" : JFrame, JPanel, BorderLayout
+GraphPanel ..> "javax.swing" : JPanel, Graphics2D
+PrimaryButton ..> "javax.swing" : JButton, Graphics
+MenuActionButton ..> "javax.swing" : JButton, Graphics
+CollapsiblePanel ..> "javax.swing" : JPanel, Animation
+ProgressDialog ..> "javax.swing" : JDialog, JProgressBar
+
+@enduml

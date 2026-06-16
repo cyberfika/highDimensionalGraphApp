@@ -1,0 +1,87 @@
+@startuml Application State Machine
+
+!theme plain
+skinparam backgroundColor #ffffff
+skinparam stateBackgroundColor #f0f0f0
+skinparam stateBorderColor #333333
+
+[*] --> StartupMenu
+
+StartupMenu --> GUIMode : User selects GUI [Option 1 or Enter]
+StartupMenu --> CLIMode : User selects CLI [Option 2]
+
+state GUIMode {
+    [*] --> GUIInitialized
+
+    GUIInitialized --> NoGraphLoaded
+
+    NoGraphLoaded --> LoadingNetwork : User clicks "Gerar Rede Social"
+    NoGraphLoaded --> LoadingRandom : User clicks "Gerar Aleatório"
+    NoGraphLoaded --> Importing : User clicks "Importar Pajek"
+
+    LoadingNetwork --> GraphLoaded : Network generated\n(5000 vertices, ~32500 edges)
+    LoadingRandom --> GraphLoaded : Random graph generated
+    Importing --> GraphLoaded : Graph imported\nfrom Pajek file
+
+    GraphLoaded --> AnalyzingConnectivity : User clicks "Conectividade"
+    GraphLoaded --> FindingComponents : User clicks "Componentes"
+    GraphLoaded --> CheckingEulerian : User clicks "Euleriano"
+    GraphLoaded --> DetectingCycle : User clicks "Ciclo"
+    GraphLoaded --> CalculatingCloseness : User clicks "Centralidade de Proximidade"
+    GraphLoaded --> CalculatingBetweenness : User clicks "Centralidade de Intermediação"
+    GraphLoaded --> FindingRecommendation : User clicks "Recomendação"
+    GraphLoaded --> ExportingPajek : User clicks "Exportar"
+    GraphLoaded --> DisplayingGraph : Graph shown
+
+    AnalyzingConnectivity --> DisplayingResults : Analysis complete
+    FindingComponents --> DisplayingResults
+    CheckingEulerian --> DisplayingResults
+    DetectingCycle --> DisplayingResults
+    CalculatingCloseness --> DisplayingResults : O(V×(V+E)logV)
+    CalculatingBetweenness --> DisplayingResults : O(V×(V+E)logV)
+    FindingRecommendation --> DisplayingPath
+
+    DisplayingResults --> GraphLoaded : User views results
+    DisplayingPath --> GraphLoaded : User views path
+    ExportingPajek --> GraphLoaded : Graph exported
+    DisplayingGraph --> GraphLoaded
+
+    GraphLoaded --> NoGraphLoaded : User loads new graph
+    NoGraphLoaded --> [*]
+}
+
+state CLIMode {
+    [*] --> CLIMenu
+
+    CLIMenu --> CLILoadingNetwork : User selects [1]
+    CLIMenu --> CLILoadingRandom : User selects [2]
+    CLIMenu --> CLIImporting : User selects [3]
+    CLIMenu --> [*] : User selects [0]
+
+    CLILoadingNetwork --> CLIGraphMenu : Network generated
+    CLILoadingRandom --> CLIGraphMenu : Random graph generated
+    CLIImporting --> CLIGraphMenu : Graph imported
+
+    CLIGraphMenu --> CLIAnalyzing : User selects algorithm [1-8]
+    CLIGraphMenu --> CLIExporting : User selects export [9]
+    CLIGraphMenu --> CLIMenu : User selects back [0]
+
+    CLIAnalyzing --> CLIGraphMenu : Analysis complete
+    CLIExporting --> CLIGraphMenu : Export complete
+}
+
+StartupMenu --> [*] : User exits
+
+note right of GUIMode
+  Modern interface with real-time visualization
+  Supports background operations with progress dialogs
+  Theme-based consistent UI
+end note
+
+note right of CLIMode
+  Legacy console-based interface
+  Menu-driven interaction
+  Compatible with batch operations
+end note
+
+@enduml

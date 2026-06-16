@@ -1,0 +1,33 @@
+@startuml Application Startup
+
+!theme plain
+actor User
+participant "JVM" as jvm
+participant "Main" as main
+participant "Menu" as menu
+participant "GraphGUI" as gui
+participant "CLI" as cli
+
+User -> main: java -cp out graph.Main
+main -> menu: chooseConsoleMode()
+menu -> menu: displayModeSelection()
+menu -> User: Display GUI/CLI prompt
+
+alt User chooses GUI [Default - Option 1]
+    User -> menu: selects 1
+    menu --> main: false (GUI mode)
+    main -> gui: new GraphGUI()
+    gui -> gui: initialize handlers
+    gui -> gui: createHeader()
+    gui -> gui: createLeftSidebar()
+    gui -> gui: createRightSidebar()
+    gui -> gui: setVisible(true)
+    gui --> User: GraphNet Analyzer window
+else User chooses CLI [Legacy - Option 2]
+    User -> menu: selects 2
+    menu --> main: true (CLI mode)
+    main -> cli: showMainMenu()
+    cli -> User: Display console menu
+end
+
+@enduml
