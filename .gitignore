@@ -1,0 +1,29 @@
+# Compiled Java
+*.class
+out/
+bin/
+build/
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+*.classpath
+*.project
+.settings/
+
+# Generated Pajek output
+pajek/output/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+.claude
+.claude/**
+
+docs/agents.md
+AGENTS.md
