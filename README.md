@@ -13,10 +13,10 @@ Professor: **Fabrício Enembreck** — PUCPR · Bacharelado em Ciência da Compu
 
 ## Equipe
 
-| Aluno | GitHub |
-|-------|--------|
+| Aluno/Autores                    | GitHub |
+|----------------------------------|--------|
 | Jafte Carneiro Fagundes da Silva | [@cyberfika](https://github.com/cyberfika) |
-| Nicolas Hrescak | [@NicolasHrescak](https://github.com/NicolasHrescak) |
+| Nicolas Hrescak                  | [@NicolasHrescak](https://github.com/NicolasHrescak) |
 
 ---
 
