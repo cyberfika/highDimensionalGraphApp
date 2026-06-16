@@ -47,80 +47,18 @@ note right of Edge
     - Space: O(V + E) = O(5000 + 32500) ≈ 37,500 entries
 end note
 
-object "Example: Social Network" as example {
+note right of Graph
+    Example: Social Network (3 vertices)
     names[0] = "Alice"
     names[1] = "Bob"
     names[2] = "Carol"
-
     numVertices = 3
     directed = true
-
     adj[0] = [{1, 1}, {2, 1}]  // Alice follows Bob, Carol
     adj[1] = [{2, 1}]           // Bob follows Carol
     adj[2] = []                 // Carol follows nobody
-}
+end note
 
 Graph --> Edge : contains (in adjacency list)
-Graph --> example : example instance
-
-diagram Graph Rendering {
-    rectangle "Vertex 0 (Alice)" as v0 {
-        note
-            Position: (x0, y0)
-            Color: determined by degree
-            Radius: 8 pixels
-        end note
-    }
-
-    rectangle "Vertex 1 (Bob)" as v1 {
-        note
-            Position: (x1, y1)
-            Color: determined by degree
-            Radius: 8 pixels
-        end note
-    }
-
-    rectangle "Vertex 2 (Carol)" as v2 {
-        note
-            Position: (x2, y2)
-            Color: determined by degree
-            Radius: 8 pixels
-        end note
-    }
-
-    rectangle "Edge 0→1" as e01 {
-        note
-            Start: (x0, y0)
-            End: (x1, y1)
-            With arrowhead
-            Color: gray
-        end note
-    }
-
-    rectangle "Edge 0→2" as e02 {
-        note
-            Start: (x0, y0)
-            End: (x2, y2)
-            With arrowhead
-            Color: gray
-        end note
-    }
-
-    rectangle "Edge 1→2" as e12 {
-        note
-            Start: (x1, y1)
-            End: (x2, y2)
-            With arrowhead
-            Color: gray
-        end note
-    }
-
-    v0 --> e01
-    v1 --> e01
-    v0 --> e02
-    v2 --> e02
-    v1 --> e12
-    v2 --> e12
-}
 
 @enduml
