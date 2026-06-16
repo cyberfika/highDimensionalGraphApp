@@ -1,0 +1,34 @@
+@startuml GUI Algorithm Execution
+
+!theme plain
+actor User
+participant "GraphGUI" as gui
+participant "AlgorithmHandler" as handler
+participant "ProgressDialog" as dialog
+participant "GraphUIState" as state
+participant "Graph" as graph
+participant "GraphAlgorithms" as algs
+
+User -> gui: clicks "Centralidade de Proximidade"
+gui -> handler: closenessCentrality()
+handler -> handler: checkGraphLoaded()
+handler -> dialog: new ProgressDialog("Calculando...")
+dialog -> User: show progress
+handler -> state: getGraph()
+state --> handler: Graph
+handler -> algs: new GraphAlgorithms(graph)
+loop for each vertex (V times)
+    algs -> algs: dijkstra(i)
+    algs -> graph: neighbors(u)
+    handler -> dialog: updateProgress()
+end
+note over algs: O(V × (V + E) log V)
+algs --> handler: double[] centralities
+handler -> dialog: close()
+handler -> gui: onAlgorithmComplete(centralities)
+gui -> gui: sortByCentrality()
+gui -> gui: displayTopNodes()
+gui -> User: show top 10 nodes by closeness
+User -> User: view results
+
+@enduml

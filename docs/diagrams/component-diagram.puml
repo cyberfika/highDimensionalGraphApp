@@ -1,0 +1,95 @@
+@startuml Component Architecture
+
+!theme plain
+skinparam backgroundColor #ffffff
+
+package "graph.model" as model {
+    component [Graph] as GraphComp
+}
+
+package "graph.algorithm" as algorithm {
+    component [GraphAlgorithms] as AlgComp
+}
+
+package "graph.domain" as domain {
+    component [SocialNetwork] as SocialComp
+}
+
+package "graph.io" as io {
+    component [PajekIO] as PajekComp
+    component [NamesLoader] as LoaderComp
+}
+
+package "graph.generator" as generator {
+    component [GraphGenerator] as GenComp
+}
+
+package "graph.gui" as gui {
+    component [GraphGUI] as GUIComp
+    component [GraphPanel] as PanelComp
+    component [GraphUIState] as StateComp
+    component [GraphLoadingHandler] as LoadingHandlerComp
+    component [AlgorithmHandler] as AlgHandlerComp
+    component [SocialNetworkHandler] as SocialHandlerComp
+    component [Theme] as ThemeComp
+    component [PrimaryButton] as ButtonComp
+    component [MenuActionButton] as ActionButtonComp
+    component [CollapsiblePanel] as CollapsibleComp
+    component [ProgressDialog] as ProgressComp
+    component [VectorIcon] as IconComp
+}
+
+package "graph" as top {
+    component [Main] as MainComp
+    component [Menu] as MenuComp
+}
+
+' Model layer dependencies
+AlgComp --|> GraphComp : uses
+SocialComp --|> GraphComp : uses
+GenComp --|> GraphComp : creates
+LoaderComp --|> GenComp : provides
+GenComp --|> LoaderComp : uses
+PajekComp --|> GraphComp : import/export
+
+' GUI layer dependencies
+GUIComp --|> StateComp : uses
+GUIComp --|> LoadingHandlerComp : creates
+GUIComp --|> AlgHandlerComp : creates
+GUIComp --|> SocialHandlerComp : creates
+GUIComp --|> PanelComp : contains
+GUIComp --|> ButtonComp : contains
+GUIComp --|> ActionButtonComp : contains
+GUIComp --|> CollapsibleComp : contains
+GUIComp --|> ThemeComp : uses
+
+LoadingHandlerComp --|> StateComp : updates
+LoadingHandlerComp --|> GenComp : uses
+LoadingHandlerComp --|> PajekComp : uses
+LoadingHandlerComp --|> ProgressComp : shows
+
+AlgHandlerComp --|> StateComp : reads
+AlgHandlerComp --|> AlgComp : uses
+AlgHandlerComp --|> ProgressComp : shows
+
+SocialHandlerComp --|> StateComp : reads
+SocialHandlerComp --|> SocialComp : uses
+
+PanelComp --|> GraphComp : renders
+PanelComp --|> ThemeComp : uses
+
+ButtonComp --|> ThemeComp : uses
+ActionButtonComp --|> ThemeComp : uses
+ActionButtonComp --|> IconComp : uses
+CollapsibleComp --|> ThemeComp : uses
+ProgressComp --|> ThemeComp : uses
+IconComp --|> ThemeComp : uses
+
+' Top level dependencies
+MainComp --|> MenuComp : uses
+MainComp --|> GUIComp : starts
+MainComp --|> AlgComp : legacy CLI
+MainComp --|> SocialComp : legacy CLI
+MainComp --|> GenComp : legacy CLI
+
+@enduml

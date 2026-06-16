@@ -1,0 +1,185 @@
+@startuml GUI Architecture
+
+!theme plain
+skinparam backgroundColor #ffffff
+skinparam classBackgroundColor #e8f4f8
+skinparam classBorderColor #0066cc
+skinparam arrowColor #0066cc
+
+package "graph.gui" {
+    class GraphGUI {
+        -GraphUIState state
+        -GraphLoadingHandler loadingHandler
+        -AlgorithmHandler algorithmHandler
+        -SocialNetworkHandler socialHandler
+        -GraphPanel graphPanel
+        -JTextPane txtResults
+        -DefaultListModel<String> topNodesListModel
+        -JList<String> lstTopNodes
+        -List<Integer> topNodesIndices
+        +GraphGUI()
+        -createHeader() JPanel
+        -createLeftSidebar() JPanel
+        -createRightSidebar() JPanel
+        -initializeHandlers()
+        +updateStatistics(Graph graph)
+        +displayResults(String results)
+        +displayPath(List<Integer> path)
+    }
+
+    class GraphUIState {
+        -Graph graph
+        -int vertexCount
+        -int edgeCount
+        -boolean isConnected
+        +GraphUIState()
+        +setGraph(Graph graph)
+        +getGraph() Graph
+        +getVertexCount() int
+        +getEdgeCount() int
+        +isConnected() boolean
+    }
+
+    class GraphLoadingHandler {
+        -GraphUIState state
+        -GraphGUI gui
+        +GraphLoadingHandler(GraphUIState state, GraphGUI gui)
+        +generateSocialNetwork()
+        +generateRandomGraph(int n, int m)
+        +importPajek(File file)
+        +exportPajek(File file)
+        -showProgressDialog(String title)
+    }
+
+    class AlgorithmHandler {
+        -GraphUIState state
+        -GraphGUI gui
+        +AlgorithmHandler(GraphUIState state, GraphGUI gui)
+        +checkConnectivity()
+        +findComponents()
+        +checkEulerian()
+        +hasCycle()
+        +closenessCentrality()
+        +betweennessCentrality()
+        -warnLargeGraph(int vertexCount)
+    }
+
+    class SocialNetworkHandler {
+        -GraphUIState state
+        -GraphGUI gui
+        +SocialNetworkHandler(GraphUIState state, GraphGUI gui)
+        +recommendFollower(String source, String target)
+        -displayRecommendation(String result)
+    }
+
+    class GraphPanel {
+        -Graph graph
+        -double zoomLevel
+        -int offsetX
+        -int offsetY
+        +GraphPanel()
+        +setGraph(Graph graph)
+        #paintComponent(Graphics g)
+        -drawVertices(Graphics2D g)
+        -drawEdges(Graphics2D g)
+        -drawVertex(Graphics2D g, int index, int x, int y)
+        +addMouseListener(MouseListener l)
+        +addMouseMotionListener(MouseMotionListener l)
+    }
+
+    class Theme {
+        +{static} Color BG_DARK
+        +{static} Color BG_SIDEBAR
+        +{static} Color BG_HEADER
+        +{static} Color BG_SURFACE
+        +{static} Color BORDER_PRIMARY
+        +{static} Color TEXT_PRIMARY
+        +{static} Color TEXT_SECONDARY
+        +{static} Color ACCENT_PRIMARY
+        +{static} Color ACCENT_DANGER
+        +{static} Font FONT_BODY
+        +{static} Font FONT_HEADING
+        +{static} int PADDING
+        +{static} int BORDER_RADIUS
+        +{static} Color withAlpha(Color color, int alpha)
+        +{static} Font createFont(String name, int size)
+    }
+
+    class PrimaryButton {
+        -boolean pressed
+        -boolean hovered
+        +PrimaryButton(String label)
+        #paintComponent(Graphics g)
+        #processMouseEvent(MouseEvent e)
+        #processMouseMotionEvent(MouseEvent e)
+    }
+
+    class MenuActionButton {
+        -VectorIcon icon
+        -String label
+        +MenuActionButton(String label, VectorIcon icon)
+        #paintComponent(Graphics g)
+        -drawIcon(Graphics2D g)
+        -drawLabel(Graphics2D g)
+    }
+
+    class CollapsiblePanel {
+        -boolean expanded
+        -JComponent content
+        -String title
+        +CollapsiblePanel(String title, JComponent content)
+        +toggle()
+        +isExpanded() boolean
+        #paintComponent(Graphics g)
+        -animateExpansion()
+    }
+
+    class ProgressDialog {
+        -JProgressBar progressBar
+        -JLabel statusLabel
+        -JDialog dialog
+        +ProgressDialog(JFrame parent, String title)
+        +updateProgress(int value, String message)
+        +close()
+        +isCancelled() boolean
+    }
+
+    class VectorIcon {
+        -int size
+        -Color color
+        +VectorIcon(int size, Color color)
+        +paintIcon(Component c, Graphics g, int x, int y)
+        +getIconWidth() int
+        +getIconHeight() int
+    }
+
+    ' Relationships
+    GraphGUI --> GraphUIState : uses
+    GraphGUI --> GraphLoadingHandler : creates
+    GraphGUI --> AlgorithmHandler : creates
+    GraphGUI --> SocialNetworkHandler : creates
+    GraphGUI --> GraphPanel : contains
+    GraphGUI --> "1..*" PrimaryButton : contains
+    GraphGUI --> "1..*" MenuActionButton : contains
+    GraphGUI --> "1..*" CollapsiblePanel : contains
+
+    GraphLoadingHandler --> GraphUIState : updates
+    GraphLoadingHandler --> ProgressDialog : shows
+
+    AlgorithmHandler --> GraphUIState : reads
+    AlgorithmHandler --> ProgressDialog : shows
+
+    SocialNetworkHandler --> GraphUIState : reads
+
+    GraphPanel --> Theme : uses
+    GraphPanel --> Graph : renders
+
+    PrimaryButton --> Theme : uses
+    MenuActionButton --> VectorIcon : uses
+    MenuActionButton --> Theme : uses
+    CollapsiblePanel --> Theme : uses
+    ProgressDialog --> Theme : uses
+    VectorIcon --> Theme : uses
+}
+
+@enduml

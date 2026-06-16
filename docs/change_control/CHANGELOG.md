@@ -5,6 +5,107 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [Unreleased] — 2026-06-16 (Session 5 — Defense Documentation & Source Code Export)
+
+### Documentation
+
+#### 📄 Comprehensive Technical Documentation (LaTeX)
+
+Generated complete technical documentation for **academic defense of authorship** in rigorous LaTeX format.
+
+**File:** `docs/documentacao.tex` (Overleaf-compatible)
+
+**Contents:**
+- **15 Sections** covering complete system architecture and implementation
+  - Arquitecture Overview with module dependencies
+  - Data Structure Layer (Graph.java) with 6 public methods analyzed
+  - Algorithm Layer (GraphAlgorithms.java) with 7 algorithms + pseudocode:
+    * Connectivity (BFS) — O(V+E)
+    * Components (BFS) — O(V+E)
+    * Eulerian (degree analysis) — O(V+E)
+    * Cycle Detection (DFS coloration) — O(V+E)
+    * Closeness Centrality (Dijkstra) — O(V(V+E)logV)
+    * Betweenness Centrality (Brandes) — O(V(V+E)logV)
+    * Dijkstra (shortest paths) — O((V+E)logV)
+  - Domain Layer (SocialNetwork.java) with DFS path tracing algorithm
+  - I/O & Utilities (GraphGenerator, NamesLoader, PajekIO)
+  - GUI Presentation Layer with 11 classes analyzed
+  - Main Data Flows (5 complete flows with diagrams)
+  - Design Patterns (MVC, Facade, Factory, Strategy, Observer, Dependency Injection)
+  - Dependency Analysis with 14-class matrix
+  - Complexity Analysis for all algorithms with real-world estimates (5000 vertices)
+  - SOLID Principles applied with code examples
+  - Refactorizations documented
+  - Appendices with code examples and compilation instructions
+
+- **Format:** 12pt, A4, 2.5cm margins, 100% Overleaf-compatible
+- **Language:** Portuguese (academic rigor)
+- **Authors:** Jafte Carneiro Fagundes da Silva, Nicolas Hrescak
+- **Scope:** 15 sections, ~50 pages when compiled
+- **Purpose:** Complete authorship defense with "quem chama quem" (who calls whom) dependency analysis
+
+#### 📑 Source Code PDF Export
+
+Generated printable PDF containing all 20 Java source files in logical order.
+
+**File:** `codigo-fonte.pdf` (ready for physical submission)
+
+**Contents:**
+- **Organization:** 8 logical sections mirroring project architecture
+  1. Core Model (Graph.java)
+  2. Algorithms & Generation (GraphAlgorithms.java, GraphGenerator.java)
+  3. Input/Output (PajekIO.java, NamesLoader.java)
+  4. GUI Utilities (VectorIcon.java, Theme.java, GraphUIState.java)
+  5. GUI Components (PrimaryButton, MenuActionButton, CollapsiblePanel, ProgressDialog)
+  6. GUI Handlers (GraphLoadingHandler, SocialNetworkHandler, AlgorithmHandler)
+  7. GUI Main (GraphPanel.java, GraphGUI.java)
+  8. Application (Menu.java, Main.java)
+
+- **Format:** A4, 12pt monospace font with syntax highlighting
+- **Total:** 20 files, 200+ pages, dependency-ordered sequence
+- **Generation:** Automated Node.js script using pdfkit library
+- **Use Case:** Physical submission for academic defense
+
+#### 📊 Project Structure Diagram
+
+Added `docs/diagrams/` directory for architectural diagrams.
+
+### Tools & Build Scripts
+
+#### PDF Generation Script
+
+Created `generate-pdf.js` — Node.js script for automated PDF generation with pdfkit.
+
+**Features:**
+- Reads 20 Java files in logical dependency order
+- Generates formatted PDF with:
+  - Syntax highlighting
+  - Line numbers
+  - Section headers matching architecture
+  - Automatic page breaks
+  - Monospace font (Courier, 9pt)
+- Output: `codigo-fonte.pdf` (196+ KB)
+
+**Execution:**
+```bash
+npm install pdfkit
+node generate-pdf.js
+```
+
+### Package Dependencies
+
+Added `pdfkit` to `package.json` for PDF generation.
+
+```json
+{
+  "dependencies": {
+    "pdfkit": "^0.13.0"
+  }
+}
+```
+
+---
+
 ## [Unreleased] — 2026-06-16 (Session 4 — Complete Documentation & PT-BR Translation)
 
 ### Documentation

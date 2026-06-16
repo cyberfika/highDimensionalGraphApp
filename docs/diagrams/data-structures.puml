@@ -1,0 +1,126 @@
+@startuml Graph Data Structure
+
+!theme plain
+skinparam backgroundColor #ffffff
+skinparam classBorderColor #333333
+skinparam arrowColor #333333
+
+class Graph {
+    public final int numVertices
+    public boolean directed
+
+    private String[] names
+    private List<int[]>[] adj
+}
+
+note right of Graph
+    Internal Representation:
+
+    names: ["Alice", "Bob", "Carol", ...]
+    Index:  0       1      2
+
+    adj (adjacency list):
+    - adj[0] = [{target: 1, weight: 1}, {target: 2, weight: 1}, ...]
+    - adj[1] = [{target: 2, weight: 1}, ...]
+    - adj[2] = [{target: 0, weight: 1}, ...]
+    - ...
+
+    Time Complexity:
+    - addEdge(u, v, w): O(1)
+    - neighbors(u): O(degree(u))
+    - findByName(name): O(V)
+end note
+
+class Edge {
+    int target
+    int weight
+}
+
+note right of Edge
+    Each edge is stored as int[] = {target, weight}
+
+    Example: Edge from vertex 0 to vertex 1 with weight 1
+    {1, 1}
+
+    For a 5000-vertex network:
+    - ~32,500 edges
+    - Space: O(V + E) = O(5000 + 32500) ≈ 37,500 entries
+end note
+
+object "Example: Social Network" as example {
+    names[0] = "Alice"
+    names[1] = "Bob"
+    names[2] = "Carol"
+
+    numVertices = 3
+    directed = true
+
+    adj[0] = [{1, 1}, {2, 1}]  // Alice follows Bob, Carol
+    adj[1] = [{2, 1}]           // Bob follows Carol
+    adj[2] = []                 // Carol follows nobody
+}
+
+Graph --> Edge : contains (in adjacency list)
+Graph --> example : example instance
+
+diagram Graph Rendering {
+    rectangle "Vertex 0 (Alice)" as v0 {
+        note
+            Position: (x0, y0)
+            Color: determined by degree
+            Radius: 8 pixels
+        end note
+    }
+
+    rectangle "Vertex 1 (Bob)" as v1 {
+        note
+            Position: (x1, y1)
+            Color: determined by degree
+            Radius: 8 pixels
+        end note
+    }
+
+    rectangle "Vertex 2 (Carol)" as v2 {
+        note
+            Position: (x2, y2)
+            Color: determined by degree
+            Radius: 8 pixels
+        end note
+    }
+
+    rectangle "Edge 0→1" as e01 {
+        note
+            Start: (x0, y0)
+            End: (x1, y1)
+            With arrowhead
+            Color: gray
+        end note
+    }
+
+    rectangle "Edge 0→2" as e02 {
+        note
+            Start: (x0, y0)
+            End: (x2, y2)
+            With arrowhead
+            Color: gray
+        end note
+    }
+
+    rectangle "Edge 1→2" as e12 {
+        note
+            Start: (x1, y1)
+            End: (x2, y2)
+            With arrowhead
+            Color: gray
+        end note
+    }
+
+    v0 --> e01
+    v1 --> e01
+    v0 --> e02
+    v2 --> e02
+    v1 --> e12
+    v2 --> e12
+}
+
+@enduml

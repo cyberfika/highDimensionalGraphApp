@@ -1,0 +1,37 @@
+@startuml GUI Generate Social Network
+
+!theme plain
+actor User
+participant "GraphGUI" as gui
+participant "GraphLoadingHandler" as handler
+participant "ProgressDialog" as dialog
+participant "GraphGenerator" as gen
+participant "NamesLoader" as loader
+participant "Graph" as graph
+participant "GraphUIState" as state
+participant "GraphPanel" as panel
+
+User -> gui: clicks "Gerar Rede Social"
+gui -> handler: generateSocialNetwork()
+handler -> dialog: new ProgressDialog()
+dialog -> User: show progress window
+handler -> gen: generateSocialNetwork("names.txt")
+gen -> loader: load("names.txt")
+loader -> loader: read file
+loader --> gen: List<String> names (5000)
+gen -> graph: new Graph(5000, directed=true)
+loop for each person i
+    gen -> graph: addEdge(i, target, 1)
+    handler -> dialog: updateProgress()
+end
+gen --> handler: Graph (32500+ edges)
+handler -> dialog: close()
+handler -> state: setGraph(graph)
+state --> handler: ✓ updated
+handler -> gui: onGraphLoaded(graph)
+gui -> panel: setGraph(graph)
+gui -> gui: updateStatistics()
+gui -> User: render graph visualization
+User -> User: can now interact with graph
+
+@enduml
