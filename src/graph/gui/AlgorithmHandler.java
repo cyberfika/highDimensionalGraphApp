@@ -177,19 +177,35 @@ public class AlgorithmHandler {
      *   <li><b>Não-euleriano:</b> Nenhum</li>
      * </ul>
      *
-     * <p>Resultado é exibido em cor verde (sim), amarela (semi) ou vermelha (não).
+     * <p>Se o grafo não for conectado, retorna mensagem explicativa.
+     * Resultado é exibido em cor verde (sim), amarela (semi) ou vermelha (não).
      *
      * @param owner janela proprietária (para diálogos modais)
      */
     public void checkEulerian(JFrame owner) {
-        int res = algorithms.isEulerian();
-        String status = switch (res) {
-            case 2 -> "<font color=\"#4ac997\"><b>Sim (Ciclo Euleriano)</b></font>";
-            case 1 -> "<font color=\"#ffb703\"><b>Semi-Euleriano</b></font>";
-            default -> "<font color=\"#ff6b6b\"><b>Não</b></font>";
-        };
+        boolean isConnected = algorithms.isConnected();
 
-        String html = "<b>Grafo Euleriano?</b><br>• Resultado: " + status;
+        String html = "<b>Grafo Euleriano?</b><br>";
+
+        if (!isConnected) {
+            html += "• <font color=\"#ff6b6b\"><b>Não é possível</b></font><br>" +
+                    "<br><i>Motivo: O grafo é desconexo (possui componentes isoladas).</i><br>" +
+                    "<i>Um grafo euleriano deve ser conexo para possuir ciclo/caminho euleriano.</i>";
+        } else {
+            int res = algorithms.isEulerian();
+            String status = switch (res) {
+                case 2 -> "<font color=\"#4ac997\"><b>Sim (Ciclo Euleriano)</b></font>";
+                case 1 -> "<font color=\"#ffb703\"><b>Semi-Euleriano</b></font>";
+                default -> "<font color=\"#ff6b6b\"><b>Não</b></font>";
+            };
+
+            html += "• Resultado: " + status;
+
+            if (res == 0) {
+                html += "<br><br><i>Motivo: Grafo contém vértices com grau ímpar.</i>";
+            }
+        }
+
         listener.onResultsReady(html, new ArrayList<>());
     }
 
