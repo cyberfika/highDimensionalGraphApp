@@ -68,6 +68,7 @@ public class GraphGUI extends JFrame {
     private DefaultListModel<String> topNodesListModel;
     private JList<String> lstTopNodes;
     private final List<Integer> topNodesIndices = new ArrayList<>();
+    private MenuActionButton btnFocusMode;
 
     /**
      * Inicializa a interface gráfica principal.
@@ -169,6 +170,9 @@ public class GraphGUI extends JFrame {
         buttons.add(Box.createVerticalStrut(16));
         buttons.add(createButton("Centralidade Proximidade", e -> run(() -> algorithmHandler.calculateCloseness(this))));
         buttons.add(createButton("Centralidade Intermediação", e -> run(() -> algorithmHandler.calculateBetweenness(this))));
+        buttons.add(Box.createVerticalStrut(16));
+        btnFocusMode = createButton("Focar Vizinhança", e -> { if (checkGraph()) toggleFocusMode(); });
+        buttons.add(btnFocusMode);
         buttons.add(Box.createVerticalStrut(16));
         buttons.add(createButton("Recomendação", e -> { if (checkGraph()) showRecommendationDialog(); }));
         buttons.add(createButton("Seguidores", e -> { if (checkGraph()) showFollowersDialog(); }));
@@ -367,7 +371,29 @@ public class GraphGUI extends JFrame {
     private void handleNewGraph() {
         state.clear();
         graphPanel.setGraph(null, null);
+        btnFocusMode.setText("Focar Vizinhança");
         logHTML("<b>Grafo limpo.</b>");
+    }
+
+    /**
+     * Alterna entre modo de visualização global e foco de vizinhança.
+     *
+     * <p>Atualiza o texto do botão e a visualização do painel de grafo.
+     * <ul>
+     *   <li><b>Global View:</b> Todos os nós em espiral</li>
+     *   <li><b>Neighborhood Focus:</b> Nó selecionado no centro com vizinhos em anéis</li>
+     * </ul>
+     */
+    private void toggleFocusMode() {
+        if (graphPanel.isGlobalViewMode()) {
+            graphPanel.setGlobalViewMode(false);
+            btnFocusMode.setText("Ver Rede Global");
+            logHTML("<b>Foco Vizinhança Ativado</b><br>Exibindo apenas conexões diretas do nó selecionado.");
+        } else {
+            graphPanel.setGlobalViewMode(true);
+            btnFocusMode.setText("Focar Vizinhança");
+            logHTML("<b>Retornado para Rede Global</b>");
+        }
     }
 
     /**
