@@ -12,9 +12,6 @@ build/
 *.project
 .settings/
 
-# Generated Pajek output
-pajek/output/
-
 # OS
 .DS_Store
 Thumbs.db
