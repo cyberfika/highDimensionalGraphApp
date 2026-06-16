@@ -53,12 +53,12 @@ public class PajekIO {
      * Para grafos não-direcionados, cada aresta é escrita uma única vez (u {@literal <} v).
      *
      * @param g        grafo a exportar
-     * @param filename nome do arquivo de saída (dentro de {@value #OUTPUT_DIR})
+     * @param filename nome do arquivo de saída (dentro de {@value #INPUT_DIR} para fácil carregamento)
      */
     public static void export(Graph g, String filename) {
-        File dir = new File(OUTPUT_DIR);
+        File dir = new File(INPUT_DIR);
         if (!dir.mkdirs() && !dir.exists()) {
-            System.err.println("Error: could not create output directory " + OUTPUT_DIR);
+            System.err.println("Error: could not create input directory " + INPUT_DIR);
             return;
         }
         File file = new File(dir, filename);

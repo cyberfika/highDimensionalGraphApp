@@ -461,7 +461,8 @@ public class GraphGUI extends JFrame {
      * Exibe diálogo para exportar grafo carregado.
      *
      * <p>Solicita nome de arquivo e exporta para formato Pajek
-     * na pasta {@code pajek/output} via {@link graph.io.PajekIO}.
+     * na pasta {@code pajek/input} via {@link graph.io.PajekIO}.
+     * Arquivo fica pronto para carregar imediatamente.
      *
      * @see graph.io.PajekIO#export(Graph, String)
      */
@@ -469,38 +470,38 @@ public class GraphGUI extends JFrame {
         String fn = JOptionPane.showInputDialog(this, "Nome do arquivo:");
         if (fn != null) {
             graph.io.PajekIO.export(state.getGraph(), fn);
-            logHTML("<b>Exportado:</b> pajek/output/" + fn);
+            logHTML("<b>Exportado:</b> pajek/input/" + fn + "<br><i>Pronto para carregar com 'Carregar Pajek'</i>");
         }
     }
 
     /**
      * Salva sessão atual (grafo carregado) para arquivo.
      *
-     * <p>Arquivo é salvo como {@code pajek/output/session_save.net}
-     * usando {@link graph.io.PajekIO}.
+     * <p>Arquivo é salvo como {@code pajek/input/session_save.net}
+     * e fica pronto para carregar imediatamente.
      */
     private void performSaveSession() {
         graph.io.PajekIO.export(state.getGraph(), "session_save.net");
-        logHTML("<b>Sessão salva.</b>");
+        logHTML("<b>Sessão salva.</b><br><i>Use 'Carregar Sessão' para recarregar</i>");
     }
 
     /**
      * Carrega sessão anterior (grafo salvo).
      *
-     * <p>Copia arquivo de sessão salva ({@code pajek/output/session_save.net})
-     * para pasta de entrada ({@code pajek/input}) e importa via
+     * <p>Importa arquivo de sessão ({@code pajek/input/session_save.net}) via
      * {@link graph.io.PajekIO}.
      *
      * <p>Se arquivo não existir ou erro ocorrer, exibe mensagem de erro.
      */
     private void performLoadSession() {
         try {
-            File src = new File("pajek/output/session_save.net");
-            if (src.exists()) {
-                File dest = new File("pajek/input/session_save.net");
-                java.nio.file.Files.copy(src.toPath(), dest.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-                Graph g = graph.io.PajekIO.importFrom("session_save.net");
-                if (g != null) { state.setGraph(g, true); graphPanel.setGraph(g, state.getAlgorithms()); }
+            Graph g = graph.io.PajekIO.importFrom("session_save.net");
+            if (g != null) {
+                state.setGraph(g, true);
+                graphPanel.setGraph(g, state.getAlgorithms());
+                logHTML("<b>Sessão carregada.</b>");
+            } else {
+                logHTML("<font color=\"#ff6b6b\">Sessão não encontrada.</font>");
             }
         } catch (Exception e) { logHTML("<font color=\"#ff6b6b\">Erro ao carregar.</font>"); }
     }
