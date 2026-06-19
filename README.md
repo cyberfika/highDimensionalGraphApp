@@ -23,9 +23,9 @@ Professor: **Fabrício Enembreck** — PUCPR · Bacharelado em Ciência da Compu
 
 ## Sobre o Projeto
 
-**GraphNet Analyzer** é uma aplicação completa para análise e visualização de grafos de alta dimensionalidade, modelando uma rede social com **5.000 usuários** e mais de **25.000 conexões** de "seguir".
+**GraphNet Analyzer** é uma aplicação completa para análise e visualização de grafos de alta dimensionalidade, modelando a **Rede de Co-aparições Marvel** com **7.153 heróis** e mais de **166.000 conexões reais** extraídas de quadrinhos publicados.
 
-O grafo é **direcionado** (A segue B ≠ B segue A), ponderado (peso 1 por conexão) e suporta todas as operações exigidas pelo professor.
+O grafo é **não-direcionado** e **ponderado**: cada aresta liga dois heróis que aparecem juntos em pelo menos um quadrinho, e o peso indica o número de co-aparições. Suporta todas as operações exigidas pelo professor.
 
 ### Características Principais
 
@@ -39,16 +39,22 @@ O grafo é **direcionado** (A segue B ≠ B segue A), ponderado (peso 1 por cone
 
 ---
 
-## Problema Modelado: Rede Social
+## Problema Modelado: Rede de Co-aparições Marvel
 
-Cada vértice representa uma **pessoa** (com nome brasileiro real).
-Cada aresta direcionada representa uma relação de **seguir** (como Instagram/Twitter).
+Cada vértice representa um **herói Marvel** (nome do personagem nos quadrinhos).
+Cada aresta representa uma **co-aparição**: os dois heróis aparecem juntos em pelo menos um quadrinho publicado.
+O **peso** da aresta indica quantas vezes eles aparecem juntos — quanto maior o peso, mais forte a conexão.
 
-**Sistema de Recomendação de Seguidores:**
+**Busca de Conexão entre Heróis:**
 - Dado um par (origem, destino), o sistema verifica via DFS se existe um caminho de conexões
-- Se existe: recomenda seguir e exibe o caminho completo
-- Se já se seguem: informa
-- Se não há caminho: não recomenda
+- Se existe: exibe o caminho completo de co-aparições entre os dois heróis
+- Se já estão diretamente conectados: informa
+- Se não há caminho: informa que não há conexão
+
+**Dataset:** Marvel Universe Social Network — `data/archive/hero-network.csv`
+- **7.153 heróis** (nós) — acima do mínimo de 5.000
+- **166.000+ pares únicos** (arestas) — acima do mínimo de 20.000
+- Relações reais extraídas de publicações Marvel
 
 ---
 
@@ -66,7 +72,7 @@ highDimensionalGraphApp/
 │       │   └── SocialNetwork.java            # Lógica de recomendação
 │       ├── io/
 │       │   ├── PajekIO.java                  # Import/export Pajek
-│       │   └── NamesLoader.java              # Carregamento de nomes
+│       │   └── HeroNetworkLoader.java        # Carregamento do dataset Marvel (CSV)
 │       ├── generator/
 │       │   └── GraphGenerator.java           # Geração de grafos
 │       ├── gui/
@@ -85,7 +91,8 @@ highDimensionalGraphApp/
 │       ├── Menu.java                         # Seletor GUI/CLI
 │       └── Main.java                         # Ponto de entrada
 ├── data/
-│   └── names.txt                             # 5.000 nomes brasileiros
+│   └── archive/
+│       └── hero-network.csv                  # Dataset Marvel (7.153 heróis, 574k+ co-aparições)
 ├── pajek/
 │   ├── input/                                # Arquivos para importação
 │   └── output/                               # Arquivos exportados
@@ -104,7 +111,7 @@ highDimensionalGraphApp/
 ## Pré-requisitos
 
 - **JDK 8 ou superior** — `javac` e `java` devem estar disponíveis no PATH
-- O arquivo `data/names.txt` deve estar presente (já incluído no repositório)
+- O arquivo `data/archive/hero-network.csv` deve estar presente (já incluído no repositório)
 
 Verifique sua instalação Java:
 
@@ -126,7 +133,7 @@ A partir da raiz do projeto (`highDimensionalGraphApp/`):
 ```bash
 javac -encoding UTF-8 -d out \
   src/graph/model/Graph.java \
-  src/graph/io/NamesLoader.java \
+  src/graph/io/HeroNetworkLoader.java \
   src/graph/io/PajekIO.java \
   src/graph/algorithm/GraphAlgorithms.java \
   src/graph/domain/SocialNetwork.java \
@@ -152,7 +159,7 @@ javac -encoding UTF-8 -d out \
 ```bat
 javac -encoding UTF-8 -d out ^
   src\graph\model\Graph.java ^
-  src\graph\io\NamesLoader.java ^
+  src\graph\io\HeroNetworkLoader.java ^
   src\graph\io\PajekIO.java ^
   src\graph\algorithm\GraphAlgorithms.java ^
   src\graph\domain\SocialNetwork.java ^
@@ -197,7 +204,7 @@ A GUI oferece uma experiência moderna com visualização em tempo real de grafo
 - Informações de status (vértices, arestas, conectividade)
 
 #### 2. **Sidebar Esquerdo** (Operações de Grafo)
-- **Geração**: Rede Social, Grafo Aleatório
+- **Carregamento**: Rede Marvel, Grafo Aleatório
 - **Importação**: Formato Pajek
 - **Análise**: Conectividade, Componentes, Ciclos, Euleriano
 
@@ -305,7 +312,7 @@ A aplicação é refatorada segundo os princípios **SOLID**:
 | **Graph** | Estrutura de dados (lista de adjacências) |
 | **GraphAlgorithms** | 7 algoritmos de análise + 7 helpers privados |
 | **SocialNetwork** | Lógica de domínio (recomendações) |
-| **NamesLoader** | Carregamento de arquivo de nomes |
+| **HeroNetworkLoader** | Carregamento do dataset Marvel (CSV com parser próprio) |
 | **PajekIO** | Import/export no formato Pajek |
 | **GraphGenerator** | Construção de grafos |
 | **GraphGUI** | Orquestração de UI (250 linhas) |
@@ -344,8 +351,19 @@ A aplicação é refatorada segundo os princípios **SOLID**:
 - **Conectividade** de grafos direcionados usa o grafo subjacente não-direcionado (componentes fracamente conectados).
 - **Detecção de ciclo** em direcionado usa coloração DFS (branco/cinza/preto).
 - **Centralidade de Intermediação** implementa o **Algoritmo de Brandes** com Dijkstra para grafos ponderados.
-- **Rede Social** gera entre 25.000 e 40.000 arestas (cada pessoa segue 5 a 8 outras).
+- **Rede Marvel** carregada de `data/archive/hero-network.csv`: pares de heróis agregados em arestas ponderadas (peso = número de co-aparições em quadrinhos).
+- Parser CSV próprio em `HeroNetworkLoader` — sem biblioteca externa — trata campos com vírgula entre aspas duplas.
 - Nenhuma biblioteca externa — apenas **Java puro** (`java.util.*` + `javax.swing`), conforme exigido.
+
+---
+
+## Fonte do Dataset
+
+**Marvel Universe Social Network** — disponível publicamente no Kaggle:
+https://www.kaggle.com/datasets/csanhueza/the-marvel-universe-social-network
+
+O arquivo `hero-network.csv` contém pares de heróis que co-aparecem em quadrinhos Marvel.
+A estrutura do grafo (nós, arestas, pesos) é construída inteiramente pela aplicação a partir desses dados brutos.
 
 ---
 
@@ -387,6 +405,24 @@ A aplicação é refatorada segundo os princípios **SOLID**:
 **Documentação:**
 - ✅ Javadoc em português 100%
 - ✅ Design tokens e arquitetura documentados
+
+### Sessão 5 — Dataset Marvel & Fix de Performance (2026-06-19)
+
+**Substituição do Dataset:**
+
+1. **Problema anterior** — `GraphGenerator.generateSocialNetwork()` gerava relações aleatórias entre nomes externos, sem modelar nenhum fenômeno real (vetado pelo professor).
+2. **Solução** — Substituído pelo dataset público **Marvel Universe Social Network**:
+   - `HeroNetworkLoader.java` criado em `graph.io` — parser CSV próprio sem dependências externas
+   - `GraphGenerator.generateSocialNetwork()` removido
+   - `GraphLoadingHandler.loadHeroNetwork()` substitui o método anterior
+   - Grafo agora é **não-direcionado ponderado** (co-aparições reais, peso = frequência)
+
+**Fix de Performance — Focar Vizinhança:**
+
+- `isNeighborhoodMember()` executava O(V²) por frame de repaint na EDT → freeze com 7.153 nós
+- `getNeighborhoodX/Y()` recalculavam `getInNeighbors()` (O(V×E)) a cada repaint e evento de mouse
+- **Solução:** cache `neighborhoodCache` (HashSet) + `cachedNeighborhoodX/Y` (arrays), computados uma única vez ao trocar de nó ou ativar o modo
+- `isNeighborhoodMember` virou `neighborhoodCache.contains(idx)` → O(1)
 
 ---
 
