@@ -100,7 +100,7 @@ public class GraphGUI extends JFrame {
 
         initializeHandlers();
         updateStats();
-        logHTML("<b>Bem-vindo!</b><br><br>Gere uma rede social ou carregue um grafo.");
+        logHTML("<b>Bem-vindo!</b><br><br>Carregue a Rede Marvel ou um grafo Pajek.");
     }
 
     /**
@@ -159,7 +159,7 @@ public class GraphGUI extends JFrame {
         buttons.setOpaque(false);
         buttons.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
 
-        buttons.add(createButton("Gerar Rede Social", e -> loadingHandler.generateSocialNetwork(this)));
+        buttons.add(createButton("Rede Marvel", e -> loadingHandler.loadHeroNetwork(this)));
         buttons.add(createButton("Grafo Aleatório", e -> showRandomGraphDialog()));
         buttons.add(createButton("Carregar Pajek", e -> showLoadPajekDialog()));
         buttons.add(Box.createVerticalStrut(16));
@@ -440,8 +440,8 @@ public class GraphGUI extends JFrame {
      * <p>Delega processamento ao {@link SocialNetworkHandler}.
      */
     private void showRecommendationDialog() {
-        String src = JOptionPane.showInputDialog(this, "Pessoa origem:");
-        String tgt = JOptionPane.showInputDialog(this, "Pessoa destino:");
+        String src = JOptionPane.showInputDialog(this, "Herói de origem:");
+        String tgt = JOptionPane.showInputDialog(this, "Herói de destino:");
         if (src != null && tgt != null) socialHandler.recommendFollower(src, tgt);
     }
 
@@ -453,7 +453,7 @@ public class GraphGUI extends JFrame {
      */
     private void showFollowersDialog() {
         int idx = graphPanel.getSelectedNodeIndex();
-        if (idx == -1) { logHTML("Selecione um nó."); return; }
+        if (idx == -1) { logHTML("Selecione um herói."); return; }
         socialHandler.showFollowers(idx);
     }
 

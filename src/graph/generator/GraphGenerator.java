@@ -11,7 +11,6 @@
 
 package graph.generator;
 
-import graph.io.NamesLoader;
 import graph.model.Graph;
 
 import java.util.*;
@@ -119,44 +118,6 @@ public class GraphGenerator {
             if (existing.size() >= maxInLimit) break;
         }
 
-        return g;
-    }
-
-    // -------------------------------------------------------------------------
-    // GERADOR DE REDE SOCIAL
-    // -------------------------------------------------------------------------
-
-    /**
-     * Gera uma rede social direcionada a partir de um arquivo de nomes.
-     * Cada pessoa segue entre 5 e 8 outras escolhidas aleatoriamente,
-     * resultando em média ≥ 32.500 arestas para 5.000 nós.
-     * Todas as arestas têm peso 1 (cada "follow" tem o mesmo peso).
-     *
-     * @param namesFile nome do arquivo de nomes (buscado em {@code data/})
-     * @return grafo direcionado da rede social, ou {@code null} se o arquivo não for encontrado
-     */
-    public static Graph generateSocialNetwork(String namesFile) {
-        List<String> names = NamesLoader.load(namesFile);
-        if (names == null || names.isEmpty()) return null;
-
-        int n = names.size();
-        Graph g = new Graph(n, true); // direcionado
-        for (int i = 0; i < n; i++) g.setName(i, names.get(i));
-
-        // Cada pessoa segue 5 a 8 outras → média >= 32.500 arestas com 5.000 nós
-        for (int i = 0; i < n; i++) {
-            int followCount = RNG.nextInt(4) + 5; // [5, 8]
-            Set<Integer> followed = new HashSet<>();
-            while (followed.size() < followCount) {
-                int target = RNG.nextInt(n);
-                if (target != i && followed.add(target))
-                    g.addEdge(i, target, 1);
-            }
-        }
-
-        long totalEdges = 0;
-        for (int i = 0; i < n; i++) totalEdges += g.neighbors(i).size();
-        System.out.printf("Social network generated: %d people, %d connections.%n", n, totalEdges);
         return g;
     }
 

@@ -12,6 +12,7 @@
 package graph.gui;
 
 import graph.generator.GraphGenerator;
+import graph.io.HeroNetworkLoader;
 import graph.io.PajekIO;
 import graph.model.Graph;
 
@@ -91,30 +92,25 @@ public class GraphLoadingHandler {
     }
 
     /**
-     * Gera rede social aleatória a partir de arquivo de nomes.
+     * Carrega a rede de co-aparições de heróis Marvel a partir de {@code data/archive/hero-network.csv}.
      *
-     * <p>Utiliza {@link GraphGenerator#generateSocialNetwork(String)} para:\n * <ul>
-     *   <li>Ler arquivo {@code data/names.txt} com lista de nomes</li>
-     *   <li>Gerar ~5000 usuários com 25000+ arestas (estrutura realista)</li>
-     *   <li>Distribuição de graus segue padrão de rede social real</li>
-     * </ul>
+     * <p>O grafo resultante é não-direcionado e ponderado: cada aresta liga dois heróis
+     * que aparecem juntos em algum quadrinho, e o peso representa o número de co-aparições.
+     * O dataset contém 7.153 heróis e mais de 500.000 pares de co-aparição (agrupados em
+     * ~166.000 arestas únicas ponderadas).
      *
      * <p>Operação é executada em background via {@link ProgressDialog}
-     * para prevenir congelamento da UI durante geração.
-     *
-     * <p>Ao completar, listener é notificado com {@code fromFile=false}
-     * indicando que grafo foi gerado, não importado de arquivo.
+     * para prevenir congelamento da UI durante o carregamento.
      *
      * @param owner janela proprietária (para diálogo de progresso)
-     * @see GraphGenerator#generateSocialNetwork(String)
      */
-    public void generateSocialNetwork(JFrame owner) {
-        ProgressDialog worker = new ProgressDialog(owner, "Gerando Rede Social...") {
+    public void loadHeroNetwork(JFrame owner) {
+        ProgressDialog worker = new ProgressDialog(owner, "Carregando Rede Marvel...") {
             private Graph resultGraph;
 
             @Override
             protected Void doInBackground() throws Exception {
-                resultGraph = GraphGenerator.generateSocialNetwork("names.txt");
+                resultGraph = HeroNetworkLoader.load("hero-network.csv");
                 return null;
             }
 
@@ -124,7 +120,7 @@ public class GraphLoadingHandler {
                 if (resultGraph != null) {
                     listener.onGraphLoaded(resultGraph, false);
                 } else {
-                    listener.onError("Erro ao carregar data/names.txt. Verifique se o arquivo existe.");
+                    listener.onError("Erro ao carregar data/archive/hero-network.csv.");
                 }
             }
         };

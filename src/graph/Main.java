@@ -14,6 +14,7 @@ package graph;
 import graph.algorithm.GraphAlgorithms;
 import graph.domain.SocialNetwork;
 import graph.generator.GraphGenerator;
+import graph.io.HeroNetworkLoader;
 import graph.io.PajekIO;
 import graph.model.Graph;
 
@@ -145,11 +146,11 @@ public class Main {
     // AÇÕES DO MENU PRINCIPAL
     // -------------------------------------------------------------------------
 
-    /** Gera a rede social com 5.000 pessoas a partir do arquivo {@code data/names.txt}. */
+    /** Carrega a rede Marvel de co-aparições a partir de {@code data/archive/hero-network.csv}. */
     private static void loadSocialNetwork() {
-        System.out.println("\nLoading social network...");
-        setGraph(GraphGenerator.generateSocialNetwork("names.txt"), false);
-        if (graph != null) System.out.println("Social network ready!");
+        System.out.println("\nCarregando Rede Marvel...");
+        setGraph(HeroNetworkLoader.load("hero-network.csv"), false);
+        if (graph != null) System.out.println("Rede Marvel carregada!");
     }
 
     /** Solicita parâmetros ao usuário e gera um grafo aleatório. */

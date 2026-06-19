@@ -101,8 +101,8 @@ public class SocialNetworkHandler {
 
         if (resultStr.startsWith("Recommended!")) {
             String pathPart = resultStr.substring(resultStr.indexOf("path found:") + 11).trim();
-            htmlResult = "<font color=\"#4ac997\"><b>Recomendação Aprovada!</b></font><br>" +
-                    "<b>Caminho encontrado:</b><br><font color=\"#fb8500\">" +
+            htmlResult = "<font color=\"#4ac997\"><b>Conexão Encontrada!</b></font><br>" +
+                    "<b>Caminho de conexão:</b><br><font color=\"#fb8500\">" +
                     pathPart.replace("->", " ➔ ") + "</font>";
 
             String[] names = pathPart.split(" -> ");
@@ -111,7 +111,7 @@ public class SocialNetworkHandler {
                 if (id != -1) pathIndices.add(id);
             }
         } else {
-            htmlResult = "<font color=\"#ff6b6b\"><b>Recomendação Rejeitada</b></font><br>" + resultStr;
+            htmlResult = "<font color=\"#ff6b6b\"><b>Sem Conexão Direta</b></font><br>" + resultStr;
         }
 
         listener.onResult(htmlResult, pathIndices);
@@ -146,27 +146,27 @@ public class SocialNetworkHandler {
 
         StringBuilder sb = new StringBuilder("<b>Conexões de " + graph.getName(nodeIndex) + "</b><br>");
 
-        sb.append("<b>Segue (").append(outEdges.size()).append(" pessoas):</b><br>");
+        sb.append("<b>Conectado a (").append(outEdges.size()).append(" heróis):</b><br>");
         if (outEdges.isEmpty()) {
-            sb.append("<font color=\"#8b949e\">Ninguém</font><br>");
+            sb.append("<font color=\"#8b949e\">Nenhum</font><br>");
         } else {
             for (int i = 0; i < Math.min(10, outEdges.size()); i++) {
                 sb.append("• ").append(graph.getName(outEdges.get(i)[0])).append("<br>");
             }
             if (outEdges.size() > 10) {
-                sb.append("• ... e mais ").append(outEdges.size() - 10).append(" pessoas.");
+                sb.append("• ... e mais ").append(outEdges.size() - 10).append(" heróis.");
             }
         }
 
-        sb.append("<br><b>Seguido por (").append(inNodes.size()).append(" pessoas):</b><br>");
+        sb.append("<br><b>Também conectado por (").append(inNodes.size()).append(" heróis):</b><br>");
         if (inNodes.isEmpty()) {
-            sb.append("<font color=\"#8b949e\">Ninguém</font><br>");
+            sb.append("<font color=\"#8b949e\">Nenhum</font><br>");
         } else {
             for (int i = 0; i < Math.min(10, inNodes.size()); i++) {
                 sb.append("• ").append(graph.getName(inNodes.get(i))).append("<br>");
             }
             if (inNodes.size() > 10) {
-                sb.append("• ... e mais ").append(inNodes.size() - 10).append(" pessoas.");
+                sb.append("• ... e mais ").append(inNodes.size() - 10).append(" heróis.");
             }
         }
 

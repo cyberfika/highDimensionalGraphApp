@@ -1,0 +1,89 @@
+Curitiba, 19 de junho de 2026.
+
+Ao Prof. Fabrício Enembreck,
+Disciplina: Resolução de Problemas com Grafos — PUCPR
+
+Prezado Professor,
+
+Vimos por meio desta comunicar uma alteração na base de dados utilizada em nosso trabalho
+e solicitar sua compreensão, explicando o contexto que nos levou à situação.
+
+--- O que ocorreu ---
+
+O enunciado do trabalho determina que o problema deve ser "modelado pela equipe" e que
+"cópias de grafos ou códigos prontos da Internet ou outras fontes acarretarão nota 0".
+Entendemos essa diretriz como uma proibição ao uso de grafos já estruturados — o que nos
+parece justo e coerente com o objetivo pedagógico da disciplina.
+
+Entretanto, o enunciado não especifica explicitamente o que constitui "modelar o problema":
+se é proibido apenas copiar a estrutura do grafo (nós + arestas), ou se também é proibido
+utilizar qualquer base de dados externa como fonte de nomes ou atributos dos nós.
+
+Diante dessa ambiguidade, um dos membros da equipe adotou a interpretação mais restritiva
+e utilizou um arquivo de nomes (names.txt), obtidos em [https://www.kaggle.com/datasets/felipekitamura/brazilian-names] para nomear os nós, gerando as arestas
+aleatoriamente por código. Ao apresentar isso ao senhor, fomos informados de que
+relacionamentos aleatórios não seriam aceitos — o que é completamente razoável,
+pois não modelam nenhum fenômeno real.
+
+--- A ambiguidade ---
+
+O ponto que gostaríamos de destacar é que o enunciado instrui a equipe a "modelar um
+problema com grafo à sua escolha", o que pressupõe liberdade de escolha do domínio.
+Ao mesmo tempo, proíbe a cópia de grafos prontos. Não há, contudo, menção explícita
+à proibição de uso de datasets reais como fonte de dados para a construção do grafo —
+o que é uma prática consolidada em ciência de dados e na própria área de grafos.
+
+Há uma diferença fundamental entre:
+
+  (a) Copiar um grafo pronto da internet (ex: baixar um arquivo .gexf ou .net já montado), e
+  (b) Usar um dataset de eventos reais como fonte de dados e construir o grafo por conta
+      própria, com código desenvolvido pela equipe, definindo nós, arestas e pesos.
+
+Nossa situação é a segunda: o dataset utilizado contém registros brutos de co-aparições
+de personagens em quadrinhos (hero1, hero2), sem qualquer estrutura de grafo pronta.
+A leitura do arquivo, a atribuição de índices aos nós, a agregação de pesos por número
+de co-aparições e a construção da lista de adjacências foram inteiramente implementadas
+pela equipe, sem uso de bibliotecas de grafos externas.
+
+--- O que mudou no código ---
+
+Substituímos a geração aleatória de arestas pelo carregamento do dataset público
+"Marvel Universe Social Network" (disponível no Kaggle), que registra quais pares de
+heróis aparecem juntos nos quadrinhos da Marvel. A partir desse dataset:
+
+  - Cada herói é um nó (7.153 nós — acima do mínimo de 5.000).
+  - Cada par de heróis que co-aparece em algum quadrinho forma uma aresta.
+  - O peso da aresta é o número de quadrinhos em que os dois aparecem juntos.
+  - O grafo resultante possui mais de 166.000 arestas únicas (acima do mínimo de 20.000).
+
+As relações são, portanto, reais e semanticamente significativas: dois heróis estão
+conectados porque compartilharam cenas em publicações reais da Marvel, não por sorteio.
+
+Todo o restante do trabalho permanece inalterado: os algoritmos de conectividade,
+componentes, ciclos, Euleriano, centralidade de proximidade e intermediação, a
+implementação do formato Pajek, o gerador de grafos aleatórios e a interface gráfica
+foram todos desenvolvidos pela equipe sem uso de qualquer biblioteca de grafos externa.
+
+--- Pedido ---
+
+Solicitamos que o senhor considere a substituição da base de dados como legítima,
+dado que:
+
+  1. A proibição central do enunciado — não copiar grafos ou códigos prontos — foi
+     respeitada integralmente.
+  2. A ambiguidade sobre o uso de datasets reais como fonte de dados não estava
+     explicitada no enunciado.
+  3. A mudança foi realizada de boa-fé e melhora objetivamente a qualidade do trabalho,
+     substituindo relações artificiais por relações com fundamento real.
+  4. Todo o código que constrói e analisa o grafo foi desenvolvido pela equipe.
+
+Estamos à disposição para esclarecimentos adicionais ou para demonstrar o funcionamento
+da aplicação com a nova base de dados.
+
+Atenciosamente,
+
+Jafte Carneiro Fagundes da Silva
+Nicolas Hrescak
+
+Bacharelado em Ciência da Computação — PUCPR
+Trabalho Colaborativo II — Grafos de Alta Dimensionalidade

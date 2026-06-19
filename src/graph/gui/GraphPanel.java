@@ -10,7 +10,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Painel interativo para visualização de grafos com zoom, pan e seleção de nós.
@@ -66,6 +68,11 @@ public class GraphPanel extends JPanel {
     // Graph Layout positions in absolute coordinates
     private double[] nodeX;
     private double[] nodeY;
+
+    // Neighborhood Focus cache — recomputed only when node or mode changes
+    private Set<Integer> neighborhoodCache = null;
+    private double[] cachedNeighborhoodX = null;
+    private double[] cachedNeighborhoodY = null;
 
     // Interactive State
     private int hoveredNodeIndex = -1;
@@ -296,6 +303,7 @@ public class GraphPanel extends JPanel {
     public void setGlobalViewMode(boolean global) {
         if (this.globalViewMode != global) {
             this.globalViewMode = global;
+            if (!global) computeNeighborhoodCache();
             resetZoomAndPan();
         }
     }
@@ -321,7 +329,7 @@ public class GraphPanel extends JPanel {
             selectionListener.onNodeSelected(index);
         }
         if (!globalViewMode) {
-            // Recompute neighborhood layout since focal node changed
+            computeNeighborhoodCache();
             resetZoomAndPan();
         }
         repaint();
@@ -362,78 +370,54 @@ public class GraphPanel extends JPanel {
         }
     }
 
-    // Neighborhood View layout coordinates generator
-    private double[] getNeighborhoodX() {
-        if (graph == null || selectedNodeIndex == -1) return nodeX;
-        double[] x = new double[graph.numVertices];
-        
-        // Selected node at center
-        x[selectedNodeIndex] = 0.0;
+    // Neighborhood View — builds cache once per focal node change
+    private void computeNeighborhoodCache() {
+        if (graph == null || selectedNodeIndex == -1) {
+            neighborhoodCache = null;
+            cachedNeighborhoodX = nodeX;
+            cachedNeighborhoodY = nodeY;
+            return;
+        }
 
         List<Integer> outNodes = getOutNeighbors(selectedNodeIndex);
         List<Integer> inNodes = getInNeighbors(selectedNodeIndex);
 
-        // Position out-neighbors on inner circle
+        neighborhoodCache = new HashSet<>();
+        neighborhoodCache.add(selectedNodeIndex);
+        neighborhoodCache.addAll(outNodes);
+        neighborhoodCache.addAll(inNodes);
+
+        double[] x = new double[graph.numVertices];
+        double[] y = new double[graph.numVertices];
+
         double r1 = 200.0;
         for (int i = 0; i < outNodes.size(); i++) {
             double angle = (2 * Math.PI * i) / Math.max(1, outNodes.size());
             x[outNodes.get(i)] = r1 * Math.cos(angle);
-        }
-
-        // Position in-neighbors on outer circle
-        double r2 = 380.0;
-        for (int i = 0; i < inNodes.size(); i++) {
-            double angle = (2 * Math.PI * i) / Math.max(1, inNodes.size()) + (Math.PI / 8.0); // offset slightly
-            x[inNodes.get(i)] = r2 * Math.cos(angle);
-        }
-
-        return x;
-    }
-
-    private double[] getNeighborhoodY() {
-        if (graph == null || selectedNodeIndex == -1) return nodeY;
-        double[] y = new double[graph.numVertices];
-        
-        // Selected node at center
-        y[selectedNodeIndex] = 0.0;
-
-        List<Integer> outNodes = getOutNeighbors(selectedNodeIndex);
-        List<Integer> inNodes = getInNeighbors(selectedNodeIndex);
-
-        // Position out-neighbors on inner circle
-        double r1 = 200.0;
-        for (int i = 0; i < outNodes.size(); i++) {
-            double angle = (2 * Math.PI * i) / Math.max(1, outNodes.size());
             y[outNodes.get(i)] = r1 * Math.sin(angle);
         }
 
-        // Position in-neighbors on outer circle
         double r2 = 380.0;
         for (int i = 0; i < inNodes.size(); i++) {
             double angle = (2 * Math.PI * i) / Math.max(1, inNodes.size()) + (Math.PI / 8.0);
+            x[inNodes.get(i)] = r2 * Math.cos(angle);
             y[inNodes.get(i)] = r2 * Math.sin(angle);
         }
 
-        return y;
+        cachedNeighborhoodX = x;
+        cachedNeighborhoodY = y;
+    }
+
+    private double[] getNeighborhoodX() {
+        return (cachedNeighborhoodX != null) ? cachedNeighborhoodX : nodeX;
+    }
+
+    private double[] getNeighborhoodY() {
+        return (cachedNeighborhoodY != null) ? cachedNeighborhoodY : nodeY;
     }
 
     private boolean isNeighborhoodMember(int idx) {
-        if (idx == selectedNodeIndex) return true;
-        // Check if out-neighbor
-        for (int[] edge : graph.neighbors(selectedNodeIndex)) {
-            if (edge[0] == idx) return true;
-        }
-        // Check if in-neighbor (costly, but bounded since we query the adjacency list)
-        for (int u = 0; u < graph.numVertices; u++) {
-            for (int[] edge : graph.neighbors(u)) {
-                if (edge[0] == idx && u == selectedNodeIndex) return true;
-            }
-        }
-        // Since we want in-neighbors, we search where destination is selectedNodeIndex
-        for (int[] edge : graph.neighbors(idx)) {
-            if (edge[0] == selectedNodeIndex) return true;
-        }
-        return false;
+        return neighborhoodCache != null && neighborhoodCache.contains(idx);
     }
 
     private List<Integer> getOutNeighbors(int node) {
